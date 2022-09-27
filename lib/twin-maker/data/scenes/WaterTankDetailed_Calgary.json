@@ -1,0 +1,556 @@
+{
+  "specVersion": "1.0",
+  "version": "1",
+  "unit": "meters",
+  "properties": {
+    "environmentPreset": "neutral"
+  },
+  "nodes": [
+    {
+      "name": "WaterTank",
+      "transform": {
+        "position": [0, 0, 0],
+        "rotation": [0, 0, 0],
+        "scale": [4, 4, 4]
+      },
+      "transformConstraint": {},
+      "children": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "components": [
+        {
+          "type": "ModelRef",
+          "uri": "${bucket}/WaterTank.glb",
+          "modelType": "GLB",
+          "unitOfMeasure": "meters"
+        },
+        {
+          "type": "ModelShader",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "WaterTank_Calgary",
+              "componentName": "AlarmComponent",
+              "propertyName": "alarm_status",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+            },
+            "dataFrameLabel": "component%3DAlarmComponent%26entity%3DWaterTank_Calgary%26property%3Dalarm_status,alarm_key%3DWaterTank_Calgary_alarm%26componentTypeId%3Daws.prototyping.digital-twin.alarm%26property%3Dalarm_status,component%3DAlarmComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Dalarm_status"
+          },
+          "ruleBasedMapId": "leakNotifier"
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "amps_meter_1",
+      "transform": {
+        "position": [-0.7646082519984077, 0.09475955292375765, 0.7852541715155577],
+        "rotation": [0, 1.5707963267948966, 0],
+        "scale": [0.2, 0.2, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "icon": "iottwinmaker.common.icon:Info",
+          "ruleBasedMapId": "amperMeter1Notifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "WaterTank_Calgary",
+              "componentName": "WaterTankComponent",
+              "propertyName": "amps_meter_1",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+            }
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "amps_meter_2",
+      "transform": {
+        "position": [-0.5748339368002845, 0.11814594327832195, 0.09898636064799932],
+        "rotation": [0, 0, 0],
+        "scale": [0.2, 0.2, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "icon": "iottwinmaker.common.icon:Info",
+          "ruleBasedMapId": "amperMeter2Notifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "WaterTank_Calgary",
+              "componentName": "WaterTankComponent",
+              "propertyName": "amps_meter_2",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+            }
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "flow_meter_1",
+      "transform": {
+        "position": [-0.6600006741667304, 0.07966123192693814, 0.5680574451063619],
+        "rotation": [0, 0, 0],
+        "scale": [0.2, 0.2, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "flowMeter1Notifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "WaterTank_Calgary",
+              "componentName": "WaterTankComponent",
+              "propertyName": "flow_meter_1",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+            }
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "flow_meter_2",
+      "transform": {
+        "position": [-0.4692914436053627, 0.07966123192693814, 0.5680574451063619],
+        "rotation": [0, 0, 0],
+        "scale": [0.2, 0.2, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "flowMeter2Notifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "WaterTank_Calgary",
+              "componentName": "WaterTankComponent",
+              "propertyName": "flow_meter_2",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+            }
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "ohms_meter",
+      "transform": {
+        "position": [-0.00685488516924905, 0.26754404077016347, -0.03493328391386226],
+        "rotation": [0, 0, 0],
+        "scale": [0.2, 0.2, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "ohmsMeterNotifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "WaterTank_Calgary",
+              "componentName": "WaterTankComponent",
+              "propertyName": "ohms_meter",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+            }
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "temperature",
+      "transform": {
+        "position": [0.164274943555659, 0.25956184797202086, -0.04258316102334481],
+        "rotation": [0, 0, 0],
+        "scale": [0.2, 0.2, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "temperatureNotifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "WaterTank_Calgary",
+              "componentName": "WaterTankComponent",
+              "propertyName": "temperature",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+            }
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "volume_level",
+      "transform": {
+        "position": [0, 0.5466561179594164, -0.03705204056003533],
+        "rotation": [0, 0, 0],
+        "scale": [0.2, 0.2, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "volumeLevelNotifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "WaterTank_Calgary",
+              "componentName": "WaterTankComponent",
+              "propertyName": "volume_level",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+            }
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "flow_meter_1_motion",
+      "transform": {
+        "position": [-0.7430041074958481, 0, 0.573493586697464],
+        "rotation": [0, 0, 0],
+        "scale": [0.65, 1, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "MotionIndicator",
+          "shape": "LinearPlane",
+          "valueDataBindings": {
+            "speed": {
+              "valueDataBinding": {
+                "dataBindingContext": {
+                  "entityId": "WaterTank_Calgary",
+                  "componentName": "WaterTankComponent",
+                  "propertyName": "flow_meter_1",
+                  "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+                },
+                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Dflow_meter_1,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Dflow_meter_1"
+              },
+              "ruleBasedMapId": "flowMeter1Motion"
+            },
+            "foregroundColor": {}
+          },
+          "config": {
+            "numOfRepeatInY": 1,
+            "backgroundColorOpacity": 1,
+            "defaultForegroundColor": "#4a90e2"
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "flow_meter_2_motion",
+      "transform": {
+        "position": [-0.3145869052438318, 0, 0.32819418291211216],
+        "rotation": [0, 1.5707963267948966, 0],
+        "scale": [0.55, 1, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "MotionIndicator",
+          "shape": "LinearPlane",
+          "valueDataBindings": {
+            "foregroundColor": {},
+            "speed": {
+              "valueDataBinding": {
+                "dataBindingContext": {
+                  "entityId": "WaterTank_Calgary",
+                  "componentName": "WaterTankComponent",
+                  "propertyName": "flow_meter_2",
+                  "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+                },
+                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Dflow_meter_2,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Dflow_meter_2"
+              },
+              "ruleBasedMapId": "flowMeter2Motion"
+            }
+          },
+          "config": {
+            "numOfRepeatInY": 1,
+            "backgroundColorOpacity": 0,
+            "defaultForegroundColor": "#4a90e2"
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "flow_pump2_motion",
+      "transform": {
+        "position": [-0.5507636572769947, 0, -0.38250058664049463],
+        "rotation": [0, 3.141592653589793, 0],
+        "scale": [0.4, 1, 0.2]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "MotionIndicator",
+          "shape": "LinearPlane",
+          "valueDataBindings": {
+            "speed": {
+              "valueDataBinding": {
+                "dataBindingContext": {
+                  "entityId": "WaterTank_Calgary",
+                  "componentName": "WaterTankComponent",
+                  "propertyName": "amps_meter_2",
+                  "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+                },
+                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Damps_meter_2,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Damps_meter_2"
+              },
+              "ruleBasedMapId": "amperMeter2FlowMotion"
+            },
+            "foregroundColor": {}
+          },
+          "config": {
+            "numOfRepeatInY": 1,
+            "backgroundColorOpacity": 1,
+            "defaultForegroundColor": "#4a90e2"
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "amps_meter_1_motion",
+      "transform": {
+        "position": [-0.7600171039859164, 0.08029802914426737, 0.5682129939265],
+        "rotation": [1.5707963267948966, 0, 3.141592653589793],
+        "scale": [0.18, 0.18, 0.18]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "MotionIndicator",
+          "shape": "CircularCylinder",
+          "valueDataBindings": {
+            "speed": {
+              "valueDataBinding": {
+                "dataBindingContext": {
+                  "entityId": "WaterTank_Calgary",
+                  "componentName": "WaterTankComponent",
+                  "propertyName": "amps_meter_1",
+                  "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+                },
+                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Damps_meter_1,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Damps_meter_1"
+              },
+              "ruleBasedMapId": "amperMeter1Motion"
+            },
+            "foregroundColor": {}
+          },
+          "config": {
+            "numOfRepeatInY": 1,
+            "backgroundColorOpacity": 1,
+            "defaultForegroundColor": "#4a90e2"
+          }
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "name": "amps_meter_2_motion",
+      "transform": {
+        "position": [-0.562437172063913, 0.11036948004842206, -0.1856882354401257],
+        "rotation": [1.5707963267948966, 0, 0],
+        "scale": [0.18, 0.18, 0.18]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "MotionIndicator",
+          "shape": "CircularCylinder",
+          "valueDataBindings": {
+            "speed": {
+              "valueDataBinding": {
+                "dataBindingContext": {
+                  "entityId": "WaterTank_Calgary",
+                  "componentName": "WaterTankComponent",
+                  "propertyName": "amps_meter_2",
+                  "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
+                },
+                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Damps_meter_2,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Damps_meter_2"
+              },
+              "ruleBasedMapId": "amperMeter2Motion"
+            },
+            "foregroundColor": {}
+          },
+          "config": {
+            "numOfRepeatInY": 1,
+            "backgroundColorOpacity": 1,
+            "defaultForegroundColor": "#000000"
+          }
+        }
+      ],
+      "properties": {}
+    }
+  ],
+  "rootNodeIndexes": [0],
+  "cameras": [],
+  "rules": {
+    "volumeLevelNotifier": {
+      "statements": [
+        {
+          "expression": "volume_level >= 4.5",
+          "target": "iottwinmaker.common.icon:Error"
+        },
+        {
+          "expression": "volume_level > 3.5",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "volume_level <= 3.5",
+          "target": "iottwinmaker.common.icon:Info"
+        }
+      ]
+    },
+    "ohmsMeterNotifier": {
+      "statements": [
+        {
+          "expression": "ohms_meter >= 757",
+          "target": "iottwinmaker.common.icon:Info"
+        },
+        {
+          "expression": "ohms_meter >= 757",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "ohms_meter < 750",
+          "target": "iottwinmaker.common.icon:Error"
+        }
+      ]
+    },
+    "temperatureNotifier": {
+      "statements": [
+        {
+          "expression": "temperature > 25",
+          "target": "iottwinmaker.common.icon:Error"
+        },
+        {
+          "expression": "temperature > 20",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "temperature > 5",
+          "target": "iottwinmaker.common.icon:info"
+        }
+      ]
+    },
+    "flowMeter1Notifier": {
+      "statements": [
+        {
+          "expression": "flow_meter_1 < 55",
+          "target": "iottwinmaker.common.icon:Info"
+        },
+        {
+          "expression": "flow_meter_1 <= 65",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "flow_meter_1 > 65",
+          "target": "iottwinmaker.common.icon:Error"
+        }
+      ]
+    },
+    "flowMeter2Notifier": {
+      "statements": [
+        {
+          "expression": "flow_meter_2 < 55",
+          "target": "iottwinmaker.common.icon:Info"
+        },
+        {
+          "expression": "flow_meter_2 <= 65",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "flow_meter_2 > 65",
+          "target": "iottwinmaker.common.icon:Error"
+        }
+      ]
+    },
+    "amperMeter1Notifier": {
+      "statements": [
+        {
+          "expression": "amps_meter_1 < 660",
+          "target": "iottwinmaker.common.icon:Info"
+        },
+        {
+          "expression": "amps_meter_1 <= 675",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "amps_meter_1 > 675",
+          "target": "iottwinmaker.common.icon:Error"
+        }
+      ]
+    },
+    "amperMeter2Notifier": {
+      "statements": [
+        {
+          "expression": "amps_meter_2 <  660",
+          "target": "iottwinmaker.common.icon:Info"
+        },
+        {
+          "expression": "amps_meter_2 <= 675",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "amps_meter_2 > 675",
+          "target": "iottwinmaker.common.icon:Error"
+        }
+      ]
+    },
+    "leakNotifier": {
+      "statements": [
+        {
+          "expression": "alarm_status == 'ACTIVE'",
+          "target": "iottwinmaker.common.color:#d13212"
+        }
+      ]
+    },
+    "amperMeter1Motion": {
+      "statements": [
+        {
+          "expression": "amps_meter_1 >= 630",
+          "target": "iottwinmaker.common.number"
+        }
+      ]
+    },
+    "amperMeter2Motion": {
+      "statements": [
+        {
+          "expression": "amps_meter_2 >= 630",
+          "target": "iottwinmaker.common.number"
+        }
+      ]
+    },
+    "amperMeter2FlowMotion": {
+      "statements": [
+        {
+          "expression": "amps_meter_2 >= 630",
+          "target": "iottwinmaker.common.number"
+        }
+      ]
+    },
+    "flowMeter1Motion": {
+      "statements": [
+        {
+          "expression": "flow_meter_1 >= 10",
+          "target": "iottwinmaker.common.number"
+        }
+      ]
+    },
+    "flowMeter2Motion": {
+      "statements": [
+        {
+          "expression": "flow_meter_2 >= 10",
+          "target": "iottwinmaker.common.number"
+        }
+      ]
+    }
+  }
+}

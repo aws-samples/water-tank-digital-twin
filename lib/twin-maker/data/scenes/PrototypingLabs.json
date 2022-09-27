@@ -1,0 +1,339 @@
+{
+  "specVersion": "1.0",
+  "version": "1",
+  "unit": "meters",
+  "properties": {
+    "environmentPreset": "neutral"
+  },
+  "nodes": [
+    {
+      "name": "AWS Prototyping Labs LUX-22",
+      "transform": {
+        "position": [
+          0,
+          -0.6208130693803585,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "transformConstraint": {},
+      "children": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "components": [
+        {
+          "uri": "${bucket}/PrototypingLabs.glb",
+          "modelType": "GLB",
+          "castShadow": true,
+          "receiveShadow": true,
+          "type": "ModelRef"
+        }
+      ]
+    },
+    {
+      "name": "watertank_ahmed",
+      "transform": {
+        "position": [
+          1.6202035287176668,
+          1.0572642945813202,
+          -3.846192302385883
+        ],
+        "rotation": [
+          0,
+          0.3490658503988659,
+          0
+        ],
+        "scale": [
+          0.7,
+          0.7,
+          0.7
+        ]
+      },
+      "transformConstraint": {},
+      "children": [
+        5
+      ],
+      "components": [
+        {
+          "uri": "${bucket}/WaterTank.glb",
+          "modelType": "GLB",
+          "castShadow": true,
+          "receiveShadow": true,
+          "type": "ModelRef"
+        },
+        {
+          "type": "Tag",
+          "valueDataBinding": {},
+          "navLink": {
+            "destination": "${dashboardUrl}",
+            "params": {
+              "var-sel_entity": "watertank_ahmed",
+              "var-kvs_stream_name": "watertank_ahmed",
+              "from": "now-5m",
+              "to": "now"
+            }
+          }
+        },
+        {
+          "type": "ModelShader",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "watertank_ahmed",
+              "componentName": "AlarmComponent",
+              "propertyName": "alarm_status",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Seattle"
+            },
+            "dataFrameLabel": "component%3DAlarmComponent%26entity%3Dwatertank_ahmed%26property%3Dalarm_status,alarm_key%3Dwatertank_ahmed_alarm%26componentTypeId%3Daws.prototyping.digital-twin.alarm%26property%3Dalarm_status,component%3DAlarmComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Seattle%26property%3Dalarm_status"
+          },
+          "ruleBasedMapId": "WaterTankLeakRuleMap"
+        }
+      ]
+    },
+    {
+      "name": "WaterTank_Calgary",
+      "transform": {
+        "position": [
+          1.0911146321441891,
+          1.0797067798048585,
+          3.813562681425734
+        ],
+        "rotation": [
+          0,
+          1.5707963267948966,
+          0
+        ],
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "transformConstraint": {
+        "snapToFloor": false
+      },
+      "children": [
+        7
+      ],
+      "components": [
+        {
+          "type": "ModelRef",
+          "uri": "${bucket}/WaterTank.glb",
+          "modelType": "GLB"
+        },
+        {
+          "type": "Tag",
+          "valueDataBinding": {},
+          "navLink": {
+            "destination": "${dashboardUrl}",
+            "params": {
+              "var-sel_entity": "WaterTank_Calgary",
+              "var-kvs_stream_name": "WaterTank_Calgary",
+              "from": "now-5m",
+              "to": "now"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "WaterTank_Simulator",
+      "transform": {
+        "position": [
+          -1.697862035841242,
+          1.0586840776166024,
+          0.5648460841335021
+        ],
+        "rotation": [
+          0,
+          1.5707963267948966,
+          0
+        ],
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "transformConstraint": {},
+      "children": [
+        8
+      ],
+      "components": [
+        {
+          "type": "ModelRef",
+          "uri": "${bucket}/WaterTank.glb",
+          "modelType": "GLB"
+        },
+        {
+          "type": "Tag",
+          "valueDataBinding": {},
+          "navLink": {
+            "destination": "${dashboardUrl}",
+            "params": {
+              "var-sel_entity": "WaterTank_Simulator",
+              "var-kvs_stream_name": "WaterTank_Simulator",
+              "from": "now-5m",
+              "to": "now"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tag",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "icon": "iottwinmaker.common.icon:Info",
+          "ruleBasedMapId": "WaterTankLeakRuleMap",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "watertank_ahmed",
+              "componentName": "AlarmComponent",
+              "propertyName": "alarm_status",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Seattle"
+            }
+          },
+          "navLink": {
+            "destination": "${dashboardUrl}",
+            "params": {
+              "orgId": "1",
+              "var-sel_entity": "watertank_ahmed",
+              "var-kvs_stream_name": "watertank_ahmed",
+              "from": "now-5m",
+              "to": "now"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tag",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "valueDataBinding": {},
+          "navLink": {
+            "destination": "${dashboardUrl}",
+            "params": {
+              "var-sel_entity": "WaterTank_Calgary",
+              "var-kvs_stream_name": "WaterTank_Calgary",
+              "from": "now-5m",
+              "to": "now"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tag",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "valueDataBinding": {},
+          "navLink": {
+            "destination": "${dashboardUrl}",
+            "params": {
+              "var-sel_entity": "WaterTank_Simulator",
+              "var-kvs_stream_name": "WaterTank_Simulator",
+              "from": "now-5m",
+              "to": "now"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "rootNodeIndexes": [
+    0
+  ],
+  "cameras": [],
+  "rules": {
+    "WaterTankLeakRuleMap": {
+      "statements": [
+        {
+          "expression": "alarm_status == 'ACTIVE'",
+          "target": "iottwinmaker.common.color:#ff0000"
+        },
+        {
+          "expression": "alarm_status == 'NORMAL'",
+          "target": "iottwinmaker.common.color:#00ff00"
+        }
+      ]
+    },
+    "leak": {
+      "statements": [
+        {
+          "expression": "flow > 50",
+          "target": "iottwinmaker.common.icon:Error"
+        }
+      ]
+    }
+  }
+}

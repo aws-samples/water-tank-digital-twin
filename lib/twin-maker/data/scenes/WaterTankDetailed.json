@@ -1,0 +1,436 @@
+{
+  "specVersion": "1.0",
+  "version": "1",
+  "unit": "meters",
+  "properties": {
+    "environmentPreset": "neutral"
+  },
+  "nodes": [
+    {
+      "name": "WaterTank",
+      "transform": {
+        "position": [
+          0.04627226963170043,
+          0.05711443484031416,
+          -0.014884491533941214
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "transformConstraint": {},
+      "children": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "components": [
+        {
+          "type": "ModelRef",
+          "uri": "${bucket}/WaterTank.glb",
+          "modelType": "GLB",
+          "unitOfMeasure": "meters"
+        },
+        {
+          "type": "ModelShader",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "${sel_entity}",
+              "componentName": "WaterTankComponent",
+              "propertyName": "leak",
+              "entityPath": "AWS EMEA/LUX-22/Prototyping Labs/${sel_entity}"
+            },
+            "dataFrameLabel": ""
+          },
+          "ruleBasedMapId": "LeakNotifier"
+        }
+      ]
+    },
+    {
+      "name": "amps_meter_1",
+      "transform": {
+        "position": [
+          -0.7646082519984077,
+          0.09475955292375765,
+          0.7852541715155577
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.2,
+          0.2,
+          0.2
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "amperMeter1Notifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "${sel_entity}",
+              "componentName": "WaterTankComponent",
+              "propertyName": "amps_meter_1",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "amps_meter_2",
+      "transform": {
+        "position": [
+          -0.5748339368002845,
+          0.11814594327832195,
+          0.09898636064799932
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.2,
+          0.2,
+          0.2
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "amperMeter2Notifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "${sel_entity}",
+              "componentName": "WaterTankComponent",
+              "propertyName": "amps_meter_2",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "flow_meter_1",
+      "transform": {
+        "position": [
+          -0.6076515044732813,
+          0.07966123192693814,
+          0.5680574451063619
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.2,
+          0.2,
+          0.2
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "flowMeter1Notifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "${sel_entity}",
+              "componentName": "WaterTankComponent",
+              "propertyName": "flow_meter_1",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "flow_meter_2",
+      "transform": {
+        "position": [
+          -0.4730926456618958,
+          0.07966123192693814,
+          0.5680574451063619
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.2,
+          0.2,
+          0.2
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "flowMeter2Notifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "${sel_entity}",
+              "componentName": "WaterTankComponent",
+              "propertyName": "flow_meter_2",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "ohms_meter",
+      "transform": {
+        "position": [
+          -0.00685488516924905,
+          0.26754404077016347,
+          -0.03493328391386226
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.2,
+          0.2,
+          0.2
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "ohmsMeterNotifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "${sel_entity}",
+              "componentName": "WaterTankComponent",
+              "propertyName": "ohms_meter",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "temperature",
+      "transform": {
+        "position": [
+          0.164274943555659,
+          0.25956184797202086,
+          -0.04258316102334481
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.2,
+          0.2,
+          0.2
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "temperatureNotifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "${sel_entity}",
+              "componentName": "WaterTankComponent",
+              "propertyName": "temperature",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "volume_level",
+      "transform": {
+        "position": [
+          0,
+          0.5466561179594164,
+          -0.03705204056003533
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          0.2,
+          0.2,
+          0.2
+        ]
+      },
+      "transformConstraint": {},
+      "components": [
+        {
+          "type": "Tag",
+          "ruleBasedMapId": "volumeLevelNotifier",
+          "valueDataBinding": {
+            "dataBindingContext": {
+              "entityId": "${sel_entity}",
+              "componentName": "WaterTankComponent",
+              "propertyName": "volume_level",
+              "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "rootNodeIndexes": [
+    0
+  ],
+  "cameras": [],
+  "rules": {
+    "LeakNotifier": {
+      "statements": [
+        {
+          "expression": "leak == 'LEAK'",
+          "target": "iottwinmaker.common.color:#d13212"
+        },
+        {
+          "expression": "leak == 'RUN'",
+          "target": "iottwinmaker.common.color:#197708"
+        }
+      ]
+    },
+    "volumeLevelNotifier": {
+      "statements": [
+        {
+          "expression": "volume_level >= 4.5",
+          "target": "iottwinmaker.common.icon:Error"
+        },
+        {
+          "expression": "volume_level > 3.4",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "volume_level > 1.1",
+          "target": "iottwinmaker.common.icon:Info"
+        }
+      ]
+    },
+    "ohmsMeterNotifier": {
+      "statements": [
+        {
+          "expression": "ohms_meter >= 546",
+          "target": "iottwinmaker.common.icon:Info"
+        },
+        {
+          "expression": "ohms_meter >= 510",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "ohms_meter > 501",
+          "target": "iottwinmaker.common.icon:Error"
+        }
+      ]
+    },
+    "temperatureNotifier": {
+      "statements": [
+        {
+          "expression": "temperature > 25",
+          "target": "iottwinmaker.common.icon:Error"
+        },
+        {
+          "expression": "temperature > 20",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "temperature > 5",
+          "target": "iottwinmaker.common.icon:info"
+        }
+      ]
+    },
+    "flowMeter1Notifier": {
+      "statements": [
+        {
+          "expression": "flow_meter_1 > 50",
+          "target": "iottwinmaker.common.icon:Error"
+        },
+        {
+          "expression": "flow_meter_1 >= 30",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "flow_meter_1 >= 5",
+          "target": "iottwinmaker.common.icon:Info"
+        }
+      ]
+    },
+    "flowMeter2Notifier": {
+      "statements": [
+        {
+          "expression": "flow_meter_2 > 50",
+          "target": "iottwinmaker.common.icon:Error"
+        },
+        {
+          "expression": "flow_meter_2 >= 30",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "flow_meter_2 >= 5",
+          "target": "iottwinmaker.common.icon:Info"
+        }
+      ]
+    },
+    "amperMeter1Notifier": {
+      "statements": [
+        {
+          "expression": "amps_meter_1 > 660",
+          "target": "iottwinmaker.common.icon:Error"
+        },
+        {
+          "expression": "amps_meter_1 >= 610",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "amps_meter_1 >= 588",
+          "target": "iottwinmaker.common.icon:Info"
+        }
+      ]
+    },
+    "amperMeter2Notifier": {
+      "statements": [
+        {
+          "expression": "amps_meter_2 > 660",
+          "target": "iottwinmaker.common.icon:Error"
+        },
+        {
+          "expression": "amps_meter_2 >= 610",
+          "target": "iottwinmaker.common.icon:Warning"
+        },
+        {
+          "expression": "amps_meter_2 >= 588",
+          "target": "iottwinmaker.common.icon:Info"
+        }
+      ]
+    }
+  }
+}

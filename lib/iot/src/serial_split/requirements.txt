@@ -1,0 +1,5 @@
+semantic-version~=2.10.0
+wheel~=0.37.1
+awscrt~=0.14.6
+awsiotsdk~=1.11.8
+pyserial~=3.5

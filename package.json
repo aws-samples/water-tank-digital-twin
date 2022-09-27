@@ -1,0 +1,35 @@
+{
+  "name": "water-tank-digital-twin",
+  "version": "0.1.0",
+  "bin": {
+    "water-tank-demo": "bin/water-tank-demo.js"
+  },
+  "scripts": {
+    "deploy": "cdk deploy WaterTankDemoStack",
+    "deploy-pipeline": "cdk deploy CicdStack",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.102",
+    "@types/jest": "^27.5.2",
+    "@types/node": "10.17.27",
+    "@types/prettier": "2.6.0",
+    "aws-cdk": "2.43.1",
+    "esbuild": "^0.15.7",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.8.1",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-lambda-python-alpha": "^2.43.1-alpha.0",
+    "aws-cdk-lib": "2.43.1",
+    "aws-sdk": "^2.1218.0",
+    "axios": "^0.27.2",
+    "constructs": "^10.1.106",
+    "source-map-support": "^0.5.21"
+  }
+}
