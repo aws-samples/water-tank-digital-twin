@@ -5,7 +5,7 @@
     "water-tank-demo": "bin/water-tank-demo.js"
   },
   "scripts": {
-    "deploy": "cdk deploy WaterTankDemoStack",
+    "deploy": "cdk deploy CicdStack/Dev/WaterTankStack*",
     "deploy-pipeline": "cdk deploy CicdStack",
     "build": "tsc",
     "watch": "tsc -w",
