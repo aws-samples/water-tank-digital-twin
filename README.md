@@ -32,7 +32,7 @@ There are 2 ways to deploy the CDK stack to your account. One is directly from y
 1. In the root folder, run the following commands
    ```
    npm ci
-   npm run  cdk bootstrap --  --profile water-tank --toolkit-stack-name CDKToolkit-Water-Tank --qualifier watertank
+   npm run  cdk bootstrap -- --toolkit-stack-name CDKToolkit-Water-Tank --qualifier watertank
    npm run deploy
    ```
 1. For any future changes you just need to redeploy using `npm run deploy`
