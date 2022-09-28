@@ -19,7 +19,7 @@ export class CicdStack extends Stack {
       dockerEnabledForSynth: true,
       dockerEnabledForSelfMutation: true,
     });
-    const deploy = new WorkshopPipelineStage(this, 'Deploy');
+    const deploy = new WorkshopPipelineStage(this, 'Stage');
     const deployStage = pipeline.addStage(deploy);
   }
 }
@@ -27,6 +27,9 @@ export class CicdStack extends Stack {
 export class WorkshopPipelineStage extends Stage {
   constructor(scope: Construct, id: string, props?: StageProps) {
     super(scope, id, props);
-    new WaterTankDemoStack(this, 'WaterTankDemoStack', {});
+    const virtual = this.node.tryGetContext('virtual');
+    const watertankName = this.node.tryGetContext('watertankName');
+
+    new WaterTankDemoStack(this, 'WaterTankStack' + (virtual ? 'Virtual' : ''), { watertankName, virtual });
   }
 }

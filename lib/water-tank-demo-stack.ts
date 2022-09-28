@@ -10,11 +10,15 @@ import { TimeStreamReader } from './timestream-reader/timestream-reader';
 import { IotCore } from './iot/greengrass';
 import { VirtualDevice } from './virtual-device';
 
+interface WaterTankDemoStackProps extends StackProps {
+  watertankName: string;
+  virtual?: boolean;
+}
+
 export class WaterTankDemoStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: WaterTankDemoStackProps) {
     super(scope, id, props);
-    const virtual = !!this.node.tryGetContext('virtual');
-    const watertankName = this.node.tryGetContext('watertankName');
+    const { watertankName, virtual = true } = props;
 
     const timestream = new TimeStream(this, 'TimeStream');
     const timestreamReader = new TimeStreamReader(this, 'TimeStreamReader', { table: timestream.table });

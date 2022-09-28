@@ -5,6 +5,7 @@ import { Construct } from 'constructs';
 import * as timestream from 'aws-cdk-lib/aws-timestream';
 import * as iot from 'aws-cdk-lib/aws-iot';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import { Names } from 'aws-cdk-lib';
 
 export class TimeStream extends Construct {
   table: timestream.CfnTable;
@@ -12,10 +13,13 @@ export class TimeStream extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const databaseName = 'WaterTank';
-    const tableName = 'Telemetry';
-    const database = new timestream.CfnDatabase(this, 'Database', { databaseName });
-    const table = new timestream.CfnTable(this, 'Table', { databaseName, tableName });
+    const database = new timestream.CfnDatabase(this, 'Database', {
+      databaseName: Names.uniqueId(this) + 'WaterTank',
+    });
+    const table = new timestream.CfnTable(this, 'Table', {
+      databaseName: database.databaseName!,
+      tableName: Names.uniqueId(this) + 'Telemetry',
+    });
     table.node.addDependency(database);
 
     const timeStreamAccessRole = new iam.Role(this, 'topicIotTimeStreamRole', {
@@ -29,8 +33,8 @@ export class TimeStream extends Construct {
         actions: [
           {
             timestream: {
-              databaseName,
-              tableName,
+              databaseName: database.databaseName!,
+              tableName: table.tableName!,
               dimensions: [
                 {
                   name: 'TelemetryAssetType',
@@ -60,8 +64,8 @@ export class TimeStream extends Construct {
         actions: [
           {
             timestream: {
-              databaseName,
-              tableName,
+              databaseName: database.databaseName!,
+              tableName: table.tableName!,
               dimensions: [
                 {
                   name: 'TelemetryAssetType',
