@@ -32,7 +32,7 @@ There are 2 ways to deploy the CDK stack to your account. One is directly from y
 1. In the root folder, run the following commands
    ```
    npm ci
-   npm run  cdk bootstrap -- --toolkit-stack-name CDKToolkit-Water-Tank --qualifier watertank
+   npm run cdk bootstrap -- --toolkit-stack-name CDKToolkit-Water-Tank --qualifier watertank
    npm run deploy
    ```
 1. For any future changes you just need to redeploy using `npm run deploy`
@@ -52,6 +52,49 @@ There are 2 ways to deploy the CDK stack to your account. One is directly from y
    npm run deploy-pipeline
    ```
 1. This is the only time you need to run commands locally, for any future changes just push new commits to your repo and the pipeline redeploy the new code changes.
+
+### Setup the raspberry PI (only if physical)
+
+This steps assume you have an SD Card and Raspberry Pi
+
+1. Install Raspeberry Pi OS Lite (64-bit) on a SD card: 
+   1. Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
+   1. Launch the imager
+   1. Select the right image: `Raspeberry Pi OS (other)` > `Raspeberry Pi OS Lite (64-bit)`
+   1. Select the right drive
+   1. Set up a the **Wifi** (you can create a hotspot with your phone for instance) and **ssh credentials** by clicking on the *gear* on the bottom right. (This connection will help you connect to the pi from your computer after the first boot)
+   1. Click `Write` button to write the image to the SD card
+1. Connect to your Raspberry Pi:
+   1. Start your Raspberry Pi with SD Card plugged in it
+   1. SSH to it by connecting your PC to the network you set up in the previous steps (`ssh pi@raspberrypi.local`)
+1. Install the missing dependencies:
+   1. Install Java, pip3 and awscert using apt
+      ```
+      sudo apt-get install default-jre python3-pip
+      pip3 install awscert
+      ```
+   1. Install Greengrass running the following command
+      ```
+      curl -s https://d2s8p88vqu9w66.cloudfront.net/releases/greengrass-nucleus-latest.zip > greengrass-nucleus-latest.zip && unzip greengrass-nucleus-latest.zip -d GreengrassInstaller
+      ```
+   1. Register your PI to your backend
+      1. The Greengrass installer uses AWS credentials to provision the AWS resources that it requires. You can provide credentials as environment variables. Copy the command below to your device’s terminal. Replace the text after the ‘=’ sign with the specified information. [Learn more](https://docs.aws.amazon.com/console/greengrass/v2/configure-aws-credentials)
+         ```
+         export AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>
+         export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
+         export AWS_SESSION_TOKEN=<AWS_SESSION_TOKEN>
+         ```
+      1. Run the command given as output of your backend deployment (aka. `npm run cdk deploy`). Something like `sudo -E java -Droot="/greengrass/v2" ...`
+1. Configure the interface options:
+   1. run `raspi-config`
+   1. Go to Interface options
+   1. Enable I4, I5, I6 (enable Hardware Serial port only, not login shell), I7 and I8
+   1. Reboot your PI !
+1. Check the PI is registered to your account:
+   1. Go to AWS IOT Core console > Greengrass devices > Core devices > `watertank_01` > Deployments
+   1. Check the deployments are `Completed`
+
+You are all set !
 
 ## Grafana Dashboard
 
