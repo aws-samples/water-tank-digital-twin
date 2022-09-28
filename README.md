@@ -24,15 +24,20 @@ There are 2 ways to deploy the CDK stack to your account. One is directly from y
 
 - Ensure your AWS credentials are in place for your account
 - Ensure you have [Node.js](https://nodejs.org) installed
+- Bootstrap your account:
+   
+   In the root folder, run the following commands
+      
+      
+      npm ci
+      npm run cdk bootstrap -- --toolkit-stack-name CDKToolkit-Water-Tank --qualifier watertank
 
-### deploy stack directly
+### deploy stack directly (bypassing CI/CD. You can always activate the CI/CD afterwards following the next section's instruction)
 
 1. Clone this repo.
 1. in your AWS Account [enable AWS IAM Identity Center and create a user for yourself](https://console.aws.amazon.com/singlesignon/identity/home)
 1. In the root folder, run the following commands
    ```
-   npm ci
-   npm run cdk bootstrap -- --toolkit-stack-name CDKToolkit-Water-Tank --qualifier watertank
    npm run deploy
    ```
 1. For any future changes you just need to redeploy using `npm run deploy`
@@ -48,15 +53,17 @@ There are 2 ways to deploy the CDK stack to your account. One is directly from y
 1. in your AWS Account [enable AWS IAM Identity Center and create a user for yourself](https://console.aws.amazon.com/singlesignon/identity/home)
 1. Finally in the root folder, run the following commands
    ```
-   npm install
    npm run deploy-pipeline
    ```
 1. This is the only time you need to run commands locally, for any future changes just push new commits to your repo and the pipeline redeploy the new code changes.
 
 ### Setup the raspberry PI (only if physical)
 
-This steps assume you have an SD Card and Raspberry Pi
+This steps assume you have an SD Card and Raspberry PI
 
+1. Make sure your backend is configured to work against a physical hardware:
+   1. Set to `false` the `virtual` flag in `cdk.json`
+   1. Redeploy the stack (directly or through CI/CD with a git commit)
 1. Install Raspeberry Pi OS Lite (64-bit) on a SD card: 
    1. Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
    1. Launch the imager
