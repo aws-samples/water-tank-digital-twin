@@ -92,7 +92,7 @@ export class IotCore extends Construct {
       state_switch_threshold: '1',
     }),
     this.createComponent('data_generator', {
-      controls: ['leak', 'pump_1_overright', 'pump_2_overright'],
+      controls: ['leak', 'pump_1', 'pump_2'],
       frequency: '1',
       mqtts_cmd_prefix: 'WaterTank_13/simulation/cmd/',
       sensors: ['ohms', 'amps_1', 'amps_2', 'flow_1', 'flow_2'],

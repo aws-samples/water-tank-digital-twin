@@ -124,23 +124,24 @@ class TimestreamReader(SingleEntityReader, MultiEntityReader):
         LOGGER.info("Query string is %s , next token is %s",
                     query_string, next_token)
         try:
+            # BUG When you activate the pageination, Grafana don't display the next page
             # Timestream SDK returns error if None is passed for NextToken and MaxRows
-            if next_token and max_rows:
-                page = self.query_client.query(
-                    QueryString=query_string, NextToken=next_token, MaxRows=max_rows)
-            elif next_token:
-                page = self.query_client.query(
-                    QueryString=query_string, NextToken=next_token)
-            elif max_rows:
-                page = self.query_client.query(
-                    QueryString=query_string, MaxRows=max_rows)
-                # skip empty pages returned by Timestream
-                # passing in MaxRows but no NextToken, if we have more than MaxRows available we get back a NextToken and no results, and reissue the query
-                while 'NextToken' in page and len(page['Rows']) == 0:
-                    page = self.query_client.query(
-                        QueryString=query_string, NextToken=page['NextToken'], MaxRows=max_rows)
-            else:
-                page = self.query_client.query(QueryString=query_string)
+            # if next_token and max_rows:
+            #     page = self.query_client.query(
+            #         QueryString=query_string, NextToken=next_token, MaxRows=max_rows)
+            # elif next_token:
+            #     page = self.query_client.query(
+            #         QueryString=query_string, NextToken=next_token)
+            # elif max_rows:
+            #     page = self.query_client.query(
+            #         QueryString=query_string, MaxRows=max_rows)
+            #     # skip empty pages returned by Timestream
+            #     # passing in MaxRows but no NextToken, if we have more than MaxRows available we get back a NextToken and no results, and reissue the query
+            #     while 'NextToken' in page and len(page['Rows']) == 0:
+            #         page = self.query_client.query(
+            #             QueryString=query_string, NextToken=page['NextToken'], MaxRows=max_rows)
+            # else:
+            page = self.query_client.query(QueryString=query_string)
 
             return page
 
