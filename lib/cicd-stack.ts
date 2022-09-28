@@ -19,7 +19,7 @@ export class CicdStack extends Stack {
       dockerEnabledForSynth: true,
       dockerEnabledForSelfMutation: true,
     });
-    const deploy = new WorkshopPipelineStage(this, 'Stage');
+    const devStage = new WorkshopPipelineStage(this, 'Dev');
     const deployStage = pipeline.addStage(deploy);
   }
 }
