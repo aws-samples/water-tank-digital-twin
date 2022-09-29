@@ -69,7 +69,12 @@ This steps assume you have an SD Card and Raspberry PI
    1. Launch the imager
    1. Select the right image: `Raspeberry Pi OS (other)` > `Raspeberry Pi OS Lite (64-bit)`
    1. Select the right drive
-   1. Set up a the **Wifi** (you can create a hotspot with your phone for instance) and **ssh credentials** by clicking on the *gear* on the bottom right. (This connection will help you connect to the pi from your computer after the first boot)
+   1. Set up a the **Wifi** (you can create a hotspot with your phone for instance) and **ssh credentials** by clicking on the *gear* on the bottom right:
+      1. Check `Enable SSH`
+      1. Set username and password
+      1. Check `Configure Wireless LAN` (This connection will help you connect to the pi from your computer after the first boot)
+      1. Set Wifi `SSID` and `Password`
+      1. Save
    1. Click `Write` button to write the image to the SD card
 1. Connect to your Raspberry Pi:
    1. Start your Raspberry Pi with SD Card plugged in it
