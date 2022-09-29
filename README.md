@@ -23,7 +23,7 @@ There are 2 ways to deploy the CDK stack to your account. One is directly from y
 ### Pre-requisites
 
 - Ensure your AWS credentials are in place for your account
-- Ensure you have [Node.js](https://nodejs.org) installed
+- Ensure you have [Node.js](https://nodejs.org) and [Docker](https://www.docker.com/products/docker-desktop/) installed
 - Bootstrap your account:
    
    In the root folder, run the following commands
