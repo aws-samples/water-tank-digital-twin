@@ -70,6 +70,7 @@ export class IotCore extends Construct {
   createComponents(watertankName: string, virtual = true) {
     const prod = virtual ? 0 : 1;
     const components = [
+      this.createComponent('kvs', {}, true),
       this.createComponent('amper_meter', {
         amps_activity_threshold: '610',
         avg_size: '3',
@@ -295,7 +296,7 @@ export class IotCore extends Construct {
     });
   }
 
-  createComponent(name: string, configs: any = {}, dependencies: any = []) {
+  createComponent(name: string, configs: any = {}, docker = false) {
     const uniqueName = Names.uniqueId(this) + '-' + name;
 
     const { assetHash, s3ObjectKey, s3ObjectUrl } = new aws_s3_assets.Asset(this, name + 'Asset', {
@@ -307,23 +308,25 @@ export class IotCore extends Construct {
       assetFolder: s3ObjectKey.replace('.zip', ''),
       assetUrl: s3ObjectUrl,
       configs,
-      dependencies,
+      docker,
     };
+
+    const recipe = generateRecipe(componentParams);
 
     const versionCr = new CustomResource(this, name + 'VersioningCr', {
       properties: {
         name: uniqueName,
         assetHash,
-        content: componentParams,
+        content: { ...componentParams, recipe },
       },
       serviceToken: this.versionProvider.serviceToken,
     });
     const version = versionCr.getAttString('version');
 
     const component = new greengrassv2.CfnComponentVersion(this, name + 'Component', {
-      inlineRecipe: generateRecipe({
-        version,
-        ...componentParams,
+      inlineRecipe: JSON.stringify({
+        ...recipe,
+        ComponentVersion: version,
       }),
     });
 
@@ -357,59 +360,60 @@ const generateMergeConfig = (componentName: string) =>
   });
 
 type RecipeArgs = {
-  version: string;
   name: string;
   assetFolder: string;
   assetUrl: string;
   dependencies?: any;
   configs?: any;
+  docker?: boolean;
 };
 
-const generateRecipe = ({ version, name, dependencies = {}, configs = {}, assetFolder, assetUrl }: RecipeArgs) =>
-  JSON.stringify({
-    RecipeFormatVersion: '2020-01-25',
-    ComponentName: name,
-    ComponentVersion: version,
-    ComponentPublisher: 'Amazon Web Services, Inc.',
-    ComponentDependencies: {
-      'aws.greengrass.Nucleus': {
-        VersionRequirement: '>=2.5.0',
-        DependencyType: 'HARD',
-      },
-      ...dependencies,
+const generateRecipe = ({ name, configs = {}, assetFolder, assetUrl, docker = false }: RecipeArgs) => ({
+  RecipeFormatVersion: '2020-01-25',
+  ComponentName: name,
+  ComponentPublisher: 'Amazon Web Services, Inc.',
+  ComponentDependencies: {
+    'aws.greengrass.Nucleus': {
+      VersionRequirement: '>=2.5.0',
+      DependencyType: 'HARD',
     },
-    ComponentConfiguration: {
-      DefaultConfiguration: {
-        log_level: 'DEBUG',
-        ...configs,
-      },
+  },
+  ComponentConfiguration: {
+    DefaultConfiguration: {
+      log_level: 'DEBUG',
+      ...configs,
     },
-    Manifests: [
-      {
-        Platform: {
-          os: 'linux',
-        },
-        Lifecycle: {
-          Setenv: {
-            PYTHONPATH: '.',
-            COMPONENT_NAME: name,
-          },
-          Install: {
-            RequiresPrivilege: true,
-            Timeout: 300,
-            Script: `rm -rf * && cp -r {artifacts:decompressedPath}/* . && cd ${assetFolder} && pip3 install -r requirements.txt`,
-          },
-          Run: {
-            RequiresPrivilege: true,
-            Script: `echo '###### Start running' && cd ${assetFolder} && python3 -u index.py {configuration:/log_level}`,
-          },
-        },
-        Artifacts: [
-          {
-            URI: assetUrl,
-            Unarchive: 'ZIP',
-          },
-        ],
+  },
+  Manifests: [
+    {
+      Platform: {
+        os: 'linux',
       },
-    ],
-  });
+      Lifecycle: {
+        Setenv: {
+          PYTHONPATH: '.',
+          COMPONENT_NAME: name,
+        },
+        Install: {
+          RequiresPrivilege: true,
+          Timeout: 300,
+          Script:
+            `rm -rf * && cp -r {artifacts:decompressedPath}/* . && cd ${assetFolder} && ` +
+            (docker ? `docker build -t index .` : `pip3 install -r requirements.txt`),
+        },
+        Run: {
+          RequiresPrivilege: true,
+          Script:
+            `echo '###### Start running' && cd ${assetFolder} && ` +
+            (docker ? `docker run --rm index` : `python3 -u index.py {configuration:/log_level}`),
+        },
+      },
+      Artifacts: [
+        {
+          URI: assetUrl,
+          Unarchive: 'ZIP',
+        },
+      ],
+    },
+  ],
+});
