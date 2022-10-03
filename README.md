@@ -80,10 +80,9 @@ This steps assume you have an SD Card and Raspberry PI
    1. Start your Raspberry Pi with SD Card plugged in it
    1. SSH to it by connecting your PC to the network you set up in the previous steps (`ssh pi@raspberrypi.local`)
 1. Install the missing dependencies:
-   1. Install Java, pip3 and awscert using apt
+   1. Install Java and pip3 using apt
       ```
       sudo apt-get install default-jre python3-pip
-      pip3 install awscert
       ```
    1. Install Greengrass running the following command
       ```
