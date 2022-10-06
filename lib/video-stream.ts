@@ -11,8 +11,8 @@ export class VideoStream extends Construct {
     const { watertankName } = props;
 
     new kinesisvideo.CfnStream(this, 'CameraStream', {
-      deviceName: watertankName,
-      dataRetentionInHours: 1,
+      name: watertankName,
+      dataRetentionInHours: 3,
     });
   }
 }

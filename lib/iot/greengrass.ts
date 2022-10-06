@@ -426,11 +426,6 @@ const generateRecipe = ({ name, configs = {}, assetFolder, assetUrl, docker = fa
         Setenv: {
           PYTHONPATH: '.',
           COMPONENT_NAME: name,
-          AWS_ACCESS_KEY_ID: 'ASIAQY2QZXQCRAKISZH7',
-          AWS_SECRET_ACCESS_KEY: 'BduG5a0yMXgcdYe+LkyIhkRyOKuw7+HpIyUgGGRW',
-          AWS_SESSION_TOKEN:
-            'IQoJb3JpZ2luX2VjEB0aCXVzLWVhc3QtMSJGMEQCIGZPW/d3M/jGFATNcg0ctHxoMp4VIdHJ5oB9CPVSF4CNAiAzx2F55lpOF1j2QXkkkZqVzE+FDcadZWEB+radhghJ/yqoAgjW//////////8BEAIaDDA1MzMxOTY3ODk4MSIMaBJTFJ30yltIl4QAKvwB/E9ra7JoIUAxMi/tNhwc14nQgyRMIi2k2uiQ4aahx2FbSBPRN2B84HKmADZzltCXWi1dDGxq/z3d9tEuYGORppo4fHcyd0eVFZH1Y6fw16lyBwuIF2HQ4wHvC/nU5CemCU8S+4DDz0hVTpGQTaNx6CrUpNhf9K+QeButWr3kxoCRYu3PEhzOS0p5gzyudtpA/r7txz7/RDdF+z3+0ZuC9woPYDwbKiHZiW0vZSpiErh6rIL3LtTDVFPkZcPTbOKjLGoAezw6ovPlJwiGBhuL57LqH0qQ94mKgzD10EiXVUD70/xJ8omKI4DVmUGvhCa8AX66GfnVnGz+UmghMMOB9pkGOp4BQOgzgw1l99yBy9InrmhU0STRNjaqJYJNyrAn1sG5zK5capaHI9JkZnExdVtUHuYKyhtaLeGSbYMZA/ixIKhFwK55hm8P37UqBKOiP87GOzt1hB2wV7IzJXElfDxSwWJCaNfMJIzPpYvsqjNdX4jj2gF/yjRkkG6spkW8bXO6vEOtjMujuYuZy8IiMdchaYYKbvh+aPn9SCCvDVhgjGw=',
-          AWS_DEFAULT_REGION: 'eu-west-1',
         },
         Install: {
           RequiresPrivilege: true,
@@ -438,15 +433,16 @@ const generateRecipe = ({ name, configs = {}, assetFolder, assetUrl, docker = fa
           Script:
             `rm -rf * && cp -r {artifacts:decompressedPath}/* . && cd ${assetFolder} && ` +
             (docker
-              ? `aws ecr get-login-password --region us-west-2 | docker login -u AWS --password-stdin https://546150905175.dkr.ecr.us-west-2.amazonaws.com && docker pull 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi:latest`
+              ? // ? `aws ecr get-login-password --region us-west-2 | docker login -u AWS --password-stdin https://546150905175.dkr.ecr.us-west-2.amazonaws.com && docker pull 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi:latest`
+                `ls`
               : `pip3 install -r requirements.txt`),
         },
         Run: {
           RequiresPrivilege: true,
           Script:
-            `echo '###### 44444 running' && cd ${assetFolder} && ` +
+            `echo '###### running' && cd ${assetFolder} && ` +
             (docker
-              ? `docker run --rm --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc -e $AWS_ACCESS_KEY_ID -e $AWS_SECRET_ACCESS_KEY -e $AWS_SESSION_TOKEN -e $AWS_DEFAULT_REGION --entrypoint sh 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi -c "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name='CameraCameraStream8A6F06B3-gnFPhH2pekZK'"`
+              ? `docker run --rm --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc  -e AWS_IOT_THING_NAME -e AWS_REGION -v /$GG_ROOT_CA_PATH/..:/certs --entrypoint sh 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi -c "gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name=$AWS_IOT_THING_NAME iot-certificate='iot-certificate,endpoint=c37lfpp7tfba2y.credentials.iot.eu-west-1.amazonaws.com,cert-path=/certs/thingCert.crt,key-path=/certs/privKey.key,ca-path=/certs/rootCA.pem,role-aliases=Dev-WaterTankStack-IotCoreGreengrassRole7ABB66B5-Y7QCQ7K29ENCAlias' aws-region=$AWS_REGION"`
               : `python3 -u index.py {configuration:/log_level}`),
         },
       },
