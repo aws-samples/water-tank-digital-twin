@@ -306,12 +306,14 @@ export class IotCore extends Construct {
 
   createKvsComponent(name: string, configs: any = {}) {
     const uniqueName = Names.uniqueId(this) + '-' + name;
+    const containerName = 'kvs';
     const recipe = generateRecipe({
       name: uniqueName,
       configs,
       // installScript: `aws ecr get-login-password --region us-west-2 | docker login -u AWS --password-stdin https://546150905175.dkr.ecr.us-west-2.amazonaws.com && docker pull 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi:latest`,
       installScript: `ls`,
-      runScript: `docker run --rm --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc  -e AWS_IOT_THING_NAME -e AWS_REGION -v /$GG_ROOT_CA_PATH/..:/certs --entrypoint sh 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi -c "gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name=$AWS_IOT_THING_NAME iot-certificate='iot-certificate,endpoint=c37lfpp7tfba2y.credentials.iot.eu-west-1.amazonaws.com,cert-path=/certs/thingCert.crt,key-path=/certs/privKey.key,ca-path=/certs/rootCA.pem,role-aliases=${this.roleAlias.roleAlias}' aws-region=$AWS_REGION"`,
+      runScript: `docker run --name ${containerName} --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc  -e AWS_IOT_THING_NAME -e AWS_REGION -v /$GG_ROOT_CA_PATH/..:/certs --entrypoint sh 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi -c "gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name=$AWS_IOT_THING_NAME iot-certificate='iot-certificate,endpoint=c37lfpp7tfba2y.credentials.iot.eu-west-1.amazonaws.com,cert-path=/certs/thingCert.crt,key-path=/certs/privKey.key,ca-path=/certs/rootCA.pem,role-aliases=${this.roleAlias.roleAlias}' aws-region=$AWS_REGION"`,
+      shutdownScript: `docker rm -f ${containerName}`,
       artifacts: [],
     });
     return this.createComponent(name, uniqueName, recipe);
@@ -411,9 +413,10 @@ type RecipeArgs = {
   configs: any;
   installScript: string;
   runScript: string;
+  shutdownScript?: string;
 };
 
-const generateRecipe = ({ name, configs, artifacts, installScript, runScript }: RecipeArgs) => ({
+const generateRecipe = ({ name, configs, artifacts, installScript, runScript, shutdownScript = '' }: RecipeArgs) => ({
   RecipeFormatVersion: '2020-01-25',
   ComponentName: name,
   ComponentPublisher: 'Amazon Web Services, Inc.',
@@ -452,6 +455,10 @@ const generateRecipe = ({ name, configs, artifacts, installScript, runScript }: 
         Run: {
           RequiresPrivilege: true,
           Script: `echo '###### running' && ` + runScript,
+        },
+        Shutdown: {
+          RequiresPrivilege: true,
+          Script: `echo '###### shutting down' && ` + shutdownScript,
         },
       },
       Artifacts: artifacts,

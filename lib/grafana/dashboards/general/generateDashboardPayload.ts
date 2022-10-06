@@ -848,6 +848,23 @@ export default (config: Config) => ({
         type: 'timeseries',
       },
       {
+        gridPos: {
+          h: 15,
+          w: 10,
+          x: 11,
+          y: 34,
+        },
+        id: 58,
+        options: {
+          componentName: '',
+          datasource: '',
+          entityId: '',
+          kvsStreamName: 'sel_entity',
+        },
+        title: 'Camera',
+        type: 'grafana-iot-twinmaker-videoplayer-panel',
+      },
+      {
         fieldConfig: {
           defaults: {
             color: {
@@ -959,26 +976,6 @@ export default (config: Config) => ({
             },
           ],
           query: 'WaterTank',
-          skipUrlSync: false,
-          type: 'textbox',
-        },
-        {
-          current: {
-            selected: false,
-            text: config.watertankName,
-            value: config.watertankName,
-          },
-          hide: 0,
-          label: '',
-          name: 'kvs_stream_name',
-          options: [
-            {
-              selected: true,
-              text: config.watertankName,
-              value: config.watertankName,
-            },
-          ],
-          query: 'watertank',
           skipUrlSync: false,
           type: 'textbox',
         },

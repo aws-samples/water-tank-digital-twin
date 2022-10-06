@@ -9,6 +9,7 @@ import { TwinMaker } from './twin-maker/twin-maker';
 import { TimeStreamReader } from './timestream-reader/timestream-reader';
 import { IotCore } from './iot/greengrass';
 import { VirtualDevice } from './virtual-device';
+import { VideoStream } from './video-stream';
 
 interface WaterTankDemoStackProps extends StackProps {
   watertankName: string;
@@ -19,6 +20,8 @@ export class WaterTankDemoStack extends Stack {
   constructor(scope: Construct, id: string, props: WaterTankDemoStackProps) {
     super(scope, id, { description: 'WaterTank Demo (uksb-1tg6b0m68)', ...props });
     const { watertankName, virtual = true } = props;
+
+    const videoStream = new VideoStream(this, 'Camera', { watertankName });
 
     const timestream = new TimeStream(this, 'TimeStream');
     const timestreamReader = new TimeStreamReader(this, 'TimeStreamReader', { table: timestream.table });
