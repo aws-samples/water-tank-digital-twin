@@ -22,6 +22,7 @@ type IotCoreProps = {
 export class IotCore extends Construct {
   public readonly subscribeCommand: string;
   private versionProvider: cr.Provider;
+  private roleAlias: iot.CfnRoleAlias;
 
   constructor(scope: Construct, id: string, props: IotCoreProps) {
     super(scope, id);
@@ -49,12 +50,12 @@ export class IotCore extends Construct {
     //   ],
     // });
 
-    const roleAlias = new iot.CfnRoleAlias(this, 'RoleAliasName', {
+    this.roleAlias = new iot.CfnRoleAlias(this, 'RoleAliasName', {
       roleAlias: role.roleName + 'Alias',
       roleArn: role.roleArn,
     });
 
-    this.subscribeCommand = `sudo -E java -Droot="/greengrass/v2" -Dlog.store=FILE -jar ./GreengrassInstaller/lib/Greengrass.jar --aws-region ${region} --thing-group-name ${thingGroupName} --component-default-user ggc_user:ggc_group --provision true --tes-role-name ${role.roleName} --tes-role-alias-name ${roleAlias.roleAlias} --setup-system-service true --deploy-dev-tools true`;
+    this.subscribeCommand = `sudo -E java -Droot="/greengrass/v2" -Dlog.store=FILE -jar ./GreengrassInstaller/lib/Greengrass.jar --aws-region ${region} --thing-group-name ${thingGroupName} --component-default-user ggc_user:ggc_group --provision true --tes-role-name ${role.roleName} --tes-role-alias-name ${this.roleAlias.roleAlias} --setup-system-service true --deploy-dev-tools true`;
 
     this.versionProvider = new cr.Provider(this, 'VersionProvider', {
       onEventHandler: new lambda.NodejsFunction(this, 'versioning', {
@@ -74,16 +75,16 @@ export class IotCore extends Construct {
   createComponents(watertankName: string, virtual = true) {
     const prod = virtual ? 0 : 1;
     const components = [
-      this.createComponent('kvs', {}, true),
-      // this.createComponent('amper_meter', {
-      //   amps_activity_threshold: '610',
-      //   avg_size: '3',
-      //   frequency: '1',
-      //   ipc_in_prefix: 'raw/',
-      //   ipc_out_prefix: 'state/',
-      //   sensors: ['amps_meter_1', 'amps_meter_2'],
-      // }),
-      // this.createComponent('compute_status', {
+      this.createKvsComponent('kvs'),
+      this.createPythonComponent('amper_meter', {
+        amps_activity_threshold: '610',
+        avg_size: '3',
+        frequency: '1',
+        ipc_in_prefix: 'raw/',
+        ipc_out_prefix: 'state/',
+        sensors: ['amps_meter_1', 'amps_meter_2'],
+      }),
+      // this.createPythonComponent('compute_status', {
       //   amps_activity_threshold: '610',
       //   capacity: '5',
       //   computes: ['volume_level', 'pump_1_active', 'pump_2_active', 'leak'],
@@ -97,7 +98,7 @@ export class IotCore extends Construct {
       //   sensors: ['flow_meter_1', 'flow_meter_2', 'amps_meter_1', 'amps_meter_2', 'ohms_meter'],
       //   state_switch_threshold: '1',
       // }),
-      // this.createComponent('data_generator', {
+      // this.createPythonComponent('data_generator', {
       //   controls: ['leak', 'pump_1', 'pump_2'],
       //   frequency: '1',
       //   mqtts_cmd_prefix: 'WaterTank_13/simulation/cmd/',
@@ -105,7 +106,7 @@ export class IotCore extends Construct {
       //   serial_simulation_ipc_topic: 'raw/serial',
       //   temperature_simulation_ipc_topic: 'raw/temperature',
       // }),
-      // this.createComponent('flow_meter', {
+      // this.createPythonComponent('flow_meter', {
       //   avg_size: '3',
       //   flow_activity_threshold: '615',
       //   frequency: '1',
@@ -113,26 +114,26 @@ export class IotCore extends Construct {
       //   ipc_out_prefix: 'state/',
       //   sensors: ['flow_meter_1', 'flow_meter_2'],
       // }),
-      // this.createComponent('lcd_manager', {
+      // this.createPythonComponent('lcd_manager', {
       //   frequency: '1',
       //   ipc_flow_meter: 'state/flow_meter_2',
       //   ipc_temperature: 'state/temperature',
       //   ipc_volume_level: 'compute/volume_level',
       // }),
-      // this.createComponent('led_manager', {
+      // this.createPythonComponent('led_manager', {
       //   frequency: '1',
       //   ipc_in_prefix: 'compute/',
       //   ipc_out_prefix: 'command/',
       //   sensors: ['pump_1_active', 'pump_2_active', 'pump_1_overright', 'pump_2_overright', 'leak_overright', 'leak'],
       // }),
-      // this.createComponent('ohms_meter', {
+      // this.createPythonComponent('ohms_meter', {
       //   avg_size: '3',
       //   frequency: '1',
       //   ipc_in_prefix: 'raw/',
       //   ipc_out_prefix: 'state/',
       //   sensors: ['ohms_meter'],
       // }),
-      // this.createComponent('remote_control', {
+      // this.createPythonComponent('remote_control', {
       //   actuators: ['pump_1', 'pump_2', 'leak', 'demo'],
       //   default_state_leak: 0,
       //   default_state_pump_1: 1,
@@ -148,7 +149,7 @@ export class IotCore extends Construct {
       //   relay_pump_1_pin: '17',
       //   relay_pump_2_pin: '12',
       // }),
-      // this.createComponent('serial_split', {
+      // this.createPythonComponent('serial_split', {
       //   frequency: '1',
       //   ipc_led_control: 'command/led_manager',
       //   ipc_out_prefix: 'raw/',
@@ -158,7 +159,7 @@ export class IotCore extends Construct {
       //   serial_port: '/dev/ttyS0',
       //   serial_speed: '9600',
       // }),
-      // this.createComponent('temperature', {
+      // this.createPythonComponent('temperature', {
       //   avg_size: '3',
       //   frequency: '1',
       //   ipc_in_prefix: 'raw/',
@@ -167,7 +168,7 @@ export class IotCore extends Construct {
       //   sensors: ['temperature'],
       //   temperature_base_dir: '/sys/bus/w1/devices/28*',
       // }),
-      // this.createComponent('timestream_sync', {
+      // this.createPythonComponent('timestream_sync', {
       //   alarm_asset_type: 'Alarm',
       //   alarm_key_id: watertankName,
       //   alarms: ['leak'],
@@ -303,28 +304,48 @@ export class IotCore extends Construct {
     });
   }
 
-  createComponent(name: string, configs: any = {}, docker = false) {
+  createKvsComponent(name: string, configs: any = {}) {
     const uniqueName = Names.uniqueId(this) + '-' + name;
+    const recipe = generateRecipe({
+      name: uniqueName,
+      configs,
+      // installScript: `aws ecr get-login-password --region us-west-2 | docker login -u AWS --password-stdin https://546150905175.dkr.ecr.us-west-2.amazonaws.com && docker pull 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi:latest`,
+      installScript: `ls`,
+      runScript: `docker run --rm --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc  -e AWS_IOT_THING_NAME -e AWS_REGION -v /$GG_ROOT_CA_PATH/..:/certs --entrypoint sh 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi -c "gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name=$AWS_IOT_THING_NAME iot-certificate='iot-certificate,endpoint=c37lfpp7tfba2y.credentials.iot.eu-west-1.amazonaws.com,cert-path=/certs/thingCert.crt,key-path=/certs/privKey.key,ca-path=/certs/rootCA.pem,role-aliases=${this.roleAlias.roleAlias}' aws-region=$AWS_REGION"`,
+      artifacts: [],
+    });
+    return this.createComponent(name, uniqueName, recipe);
+  }
 
+  createPythonComponent(name: string, configs: any = {}) {
+    const uniqueName = Names.uniqueId(this) + '-' + name;
     const { assetHash, s3ObjectKey, s3ObjectUrl } = new aws_s3_assets.Asset(this, name + 'Asset', {
       path: 'lib/iot/src/' + name,
     });
+    const assetFolder = s3ObjectKey.replace('.zip', '');
+    const assetUrl = s3ObjectUrl;
 
-    const componentParams = {
+    const recipe = generateRecipe({
       name: uniqueName,
-      assetFolder: s3ObjectKey.replace('.zip', ''),
-      assetUrl: s3ObjectUrl,
       configs,
-      docker,
-    };
+      installScript: `rm -rf * && cp -r {artifacts:decompressedPath}/* . && cd ${assetFolder} && pip3 install -r requirements.txt`,
+      runScript: `echo '###### running' && cd ${assetFolder} && python3 -u index.py {configuration:/log_level}`,
+      artifacts: [
+        {
+          URI: assetUrl,
+          Unarchive: 'ZIP',
+        },
+      ],
+    });
+    return this.createComponent(name, uniqueName, recipe, assetHash);
+  }
 
-    const recipe = generateRecipe(componentParams);
-
+  createComponent(name: string, uniqueName: string, recipe: any, assetHash: string = 'NoAssets') {
     const versionCr = new CustomResource(this, name + 'VersioningCr', {
       properties: {
         name: uniqueName,
         assetHash,
-        content: { ...componentParams, recipe },
+        content: recipe,
       },
       serviceToken: this.versionProvider.serviceToken,
     });
@@ -386,29 +407,25 @@ const generateMergeConfig = (componentName: string) =>
 
 type RecipeArgs = {
   name: string;
-  assetFolder: string;
-  assetUrl: string;
-  dependencies?: any;
-  configs?: any;
-  docker?: boolean;
+  artifacts: { URI: string; Unarchive: string }[];
+  configs: any;
+  installScript: string;
+  runScript: string;
 };
 
-const generateRecipe = ({ name, configs = {}, assetFolder, assetUrl, docker = false }: RecipeArgs) => ({
+const generateRecipe = ({ name, configs, artifacts, installScript, runScript }: RecipeArgs) => ({
   RecipeFormatVersion: '2020-01-25',
   ComponentName: name,
   ComponentPublisher: 'Amazon Web Services, Inc.',
   ComponentDependencies: {
     'aws.greengrass.Nucleus': {
       VersionRequirement: '>=2.5.0',
-      DependencyType: 'HARD',
     },
     'aws.greengrass.DockerApplicationManager': {
       VersionRequirement: '~2.0.0',
-      DependencyType: 'HARD',
     },
     'aws.greengrass.TokenExchangeService': {
       VersionRequirement: '~2.0.0',
-      DependencyType: 'HARD',
     },
   },
   ComponentConfiguration: {
@@ -430,28 +447,14 @@ const generateRecipe = ({ name, configs = {}, assetFolder, assetUrl, docker = fa
         Install: {
           RequiresPrivilege: true,
           Timeout: 300,
-          Script:
-            `rm -rf * && cp -r {artifacts:decompressedPath}/* . && cd ${assetFolder} && ` +
-            (docker
-              ? // ? `aws ecr get-login-password --region us-west-2 | docker login -u AWS --password-stdin https://546150905175.dkr.ecr.us-west-2.amazonaws.com && docker pull 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi:latest`
-                `ls`
-              : `pip3 install -r requirements.txt`),
+          Script: `echo '###### installing' && ` + installScript,
         },
         Run: {
           RequiresPrivilege: true,
-          Script:
-            `echo '###### running' && cd ${assetFolder} && ` +
-            (docker
-              ? `docker run --rm --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc  -e AWS_IOT_THING_NAME -e AWS_REGION -v /$GG_ROOT_CA_PATH/..:/certs --entrypoint sh 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi -c "gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name=$AWS_IOT_THING_NAME iot-certificate='iot-certificate,endpoint=c37lfpp7tfba2y.credentials.iot.eu-west-1.amazonaws.com,cert-path=/certs/thingCert.crt,key-path=/certs/privKey.key,ca-path=/certs/rootCA.pem,role-aliases=Dev-WaterTankStack-IotCoreGreengrassRole7ABB66B5-Y7QCQ7K29ENCAlias' aws-region=$AWS_REGION"`
-              : `python3 -u index.py {configuration:/log_level}`),
+          Script: `echo '###### running' && ` + runScript,
         },
       },
-      Artifacts: [
-        {
-          URI: assetUrl,
-          Unarchive: 'ZIP',
-        },
-      ],
+      Artifacts: artifacts,
     },
   ],
 });
