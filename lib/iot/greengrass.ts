@@ -23,12 +23,26 @@ export class IotCore extends Construct {
   public readonly subscribeCommand: string;
   private versionProvider: cr.Provider;
   private roleAlias: iot.CfnRoleAlias;
+  private iotEndpoint: string;
 
   constructor(scope: Construct, id: string, props: IotCoreProps) {
     super(scope, id);
     const { virtual = true, watertankName } = props;
     const region = Stack.of(this).region;
     const thingGroupName = Names.uniqueId(this) + '-watertank';
+
+    const iotEndpointCr = new cr.AwsCustomResource(this, 'IotEndpointCr', {
+      onUpdate: {
+        service: 'Iot',
+        action: 'describeEndpoint',
+        parameters: { endpointType: 'iot:CredentialProvider' },
+        physicalResourceId: cr.PhysicalResourceId.of('id'),
+      },
+      policy: cr.AwsCustomResourcePolicy.fromSdkCalls({
+        resources: cr.AwsCustomResourcePolicy.ANY_RESOURCE,
+      }),
+    });
+    this.iotEndpoint = iotEndpointCr.getResponseField('endpointAddress');
 
     const role = new iam.Role(this, 'GreengrassRole', {
       assumedBy: new iam.ServicePrincipal('credentials.iot.amazonaws.com'),
@@ -39,16 +53,16 @@ export class IotCore extends Construct {
       ],
     });
 
-    // const policy = new iam.ManagedPolicy(this, 'GreenGrassPolicy', {
-    //   managedPolicyName: role.roleName + 'Access',
-    //   roles: [role],
-    //   statements: [
-    //     new iam.PolicyStatement({
-    //       actions: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents', 'logs:DescribeLogStreams'],
-    //       resources: ['*'],
-    //     }),
-    //   ],
-    // });
+    const policy = new iam.ManagedPolicy(this, 'GreenGrassPolicy', {
+      managedPolicyName: role.roleName + 'Access',
+      roles: [role],
+      statements: [
+        new iam.PolicyStatement({
+          actions: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents', 'logs:DescribeLogStreams'],
+          resources: ['*'],
+        }),
+      ],
+    });
 
     this.roleAlias = new iot.CfnRoleAlias(this, 'RoleAliasName', {
       roleAlias: role.roleName + 'Alias',
@@ -75,15 +89,14 @@ export class IotCore extends Construct {
   createComponents(watertankName: string, virtual = true) {
     const prod = virtual ? 0 : 1;
     const components = [
-      this.createKvsComponent('kvs'),
-      this.createPythonComponent('amper_meter', {
-        amps_activity_threshold: '610',
-        avg_size: '3',
-        frequency: '1',
-        ipc_in_prefix: 'raw/',
-        ipc_out_prefix: 'state/',
-        sensors: ['amps_meter_1', 'amps_meter_2'],
-      }),
+      // this.createPythonComponent('amper_meter', {
+      //   amps_activity_threshold: '610',
+      //   avg_size: '3',
+      //   frequency: '1',
+      //   ipc_in_prefix: 'raw/',
+      //   ipc_out_prefix: 'state/',
+      //   sensors: ['amps_meter_1', 'amps_meter_2'],
+      // }),
       // this.createPythonComponent('compute_status', {
       //   amps_activity_threshold: '610',
       //   capacity: '5',
@@ -189,6 +202,8 @@ export class IotCore extends Construct {
       //   telemetry_asset_type: 'Telemetry',
       // }),
     ];
+    if (!virtual) components.push(this.createKvsComponent('kvs'));
+
     for (let i = 1; i < components.length; i++) components[i].component.addDependsOn(components[i - 1].component);
     for (let i = 1; i < components.length; i++) components[i].versionCr.node.addDependency(components[i - 1].versionCr);
 
@@ -307,14 +322,17 @@ export class IotCore extends Construct {
   createKvsComponent(name: string, configs: any = {}) {
     const uniqueName = Names.uniqueId(this) + '-' + name;
     const containerName = 'kvs';
+
     const recipe = generateRecipe({
       name: uniqueName,
       configs,
-      // installScript: `aws ecr get-login-password --region us-west-2 | docker login -u AWS --password-stdin https://546150905175.dkr.ecr.us-west-2.amazonaws.com && docker pull 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi:latest`,
-      installScript: `ls`,
-      runScript: `docker run --name ${containerName} --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc  -e AWS_IOT_THING_NAME -e AWS_REGION -v /$GG_ROOT_CA_PATH/..:/certs --entrypoint sh 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi -c "gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name=$AWS_IOT_THING_NAME iot-certificate='iot-certificate,endpoint=c37lfpp7tfba2y.credentials.iot.eu-west-1.amazonaws.com,cert-path=/certs/thingCert.crt,key-path=/certs/privKey.key,ca-path=/certs/rootCA.pem,role-aliases=${this.roleAlias.roleAlias}' aws-region=$AWS_REGION"`,
+      runScript: `docker run --name ${containerName} --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc  -e AWS_IOT_THING_NAME -e AWS_REGION -v /$GG_ROOT_CA_PATH/..:/certs --entrypoint sh 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi -c "gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name=$AWS_IOT_THING_NAME iot-certificate='iot-certificate,endpoint=${this.iotEndpoint},cert-path=/certs/thingCert.crt,key-path=/certs/privKey.key,ca-path=/certs/rootCA.pem,role-aliases=${this.roleAlias.roleAlias}' aws-region=$AWS_REGION"`,
       shutdownScript: `docker rm -f ${containerName}`,
-      artifacts: [],
+      artifacts: [
+        {
+          URI: `docker:546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi:latest`,
+        },
+      ],
     });
     return this.createComponent(name, uniqueName, recipe);
   }
@@ -331,7 +349,7 @@ export class IotCore extends Construct {
       name: uniqueName,
       configs,
       installScript: `rm -rf * && cp -r {artifacts:decompressedPath}/* . && cd ${assetFolder} && pip3 install -r requirements.txt`,
-      runScript: `echo '###### running' && cd ${assetFolder} && python3 -u index.py {configuration:/log_level}`,
+      runScript: `cd ${assetFolder} && python3 -u index.py {configuration:/log_level}`,
       artifacts: [
         {
           URI: assetUrl,
@@ -409,14 +427,21 @@ const generateMergeConfig = (componentName: string) =>
 
 type RecipeArgs = {
   name: string;
-  artifacts: { URI: string; Unarchive: string }[];
+  artifacts: { URI: string; Unarchive?: string }[];
   configs: any;
-  installScript: string;
+  installScript?: string;
   runScript: string;
   shutdownScript?: string;
 };
 
-const generateRecipe = ({ name, configs, artifacts, installScript, runScript, shutdownScript = '' }: RecipeArgs) => ({
+const generateRecipe = ({
+  name,
+  configs,
+  artifacts,
+  runScript,
+  installScript = `echo 'no installation script'`,
+  shutdownScript = `echo 'no shutdown script'`,
+}: RecipeArgs) => ({
   RecipeFormatVersion: '2020-01-25',
   ComponentName: name,
   ComponentPublisher: 'Amazon Web Services, Inc.',
