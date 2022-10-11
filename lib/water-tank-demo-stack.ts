@@ -21,7 +21,7 @@ export class WaterTankDemoStack extends Stack {
     super(scope, id, { description: 'WaterTank Demo (uksb-1tg6b0m68)', ...props });
     const { watertankName, virtual = true } = props;
 
-    const videoStream = new VideoStream(this, 'Camera', { watertankName });
+    if (!virtual) new VideoStream(this, 'Camera', { watertankName });
 
     const timestream = new TimeStream(this, 'TimeStream');
     const timestreamReader = new TimeStreamReader(this, 'TimeStreamReader', { table: timestream.table });

@@ -25,12 +25,9 @@ There are 2 ways to deploy the CDK stack to your account. One is directly from y
 - Ensure your AWS credentials are in place for your account
 - Ensure you have [Node.js](https://nodejs.org) and [Docker](https://www.docker.com/products/docker-desktop/) installed
 - Bootstrap your account:
-   
-   In the root folder, run the following commands
-      
-      
-      npm ci
-      npm run cdk bootstrap -- --toolkit-stack-name CDKToolkit-Water-Tank --qualifier watertank
+  In the root folder, run the following commands
+  npm ci
+  npm run cdk bootstrap -- --toolkit-stack-name CDKToolkit-Water-Tank --qualifier watertank
 
 ### deploy stack directly (bypassing CI/CD. You can always activate the CI/CD afterwards following the next section's instruction)
 
@@ -64,12 +61,12 @@ This steps assume you have an SD Card and Raspberry PI
 1. Make sure your backend is configured to work against a physical hardware:
    1. Set to `false` the `virtual` flag in `cdk.json`
    1. Redeploy the stack (directly or through CI/CD with a git commit)
-1. Install Raspeberry Pi OS Lite (64-bit) on a SD card: 
+1. Install Raspeberry Pi OS Lite (64-bit) on a SD card:
    1. Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
    1. Launch the imager
    1. Select the right image: `Raspeberry Pi OS (other)` > `Raspeberry Pi OS Lite (64-bit)`
    1. Select the right drive
-   1. Set up a the **Wifi** (you can create a hotspot with your phone for instance) and **ssh credentials** by clicking on the *gear* on the bottom right:
+   1. Set up a the **Wifi** (you can create a hotspot with your phone for instance) and **ssh credentials** by clicking on the _gear_ on the bottom right:
       1. Check `Enable SSH`
       1. Set username and password
       1. Check `Configure Wireless LAN` (This connection will help you connect to the pi from your computer after the first boot)
@@ -82,7 +79,16 @@ This steps assume you have an SD Card and Raspberry PI
 1. Install the missing dependencies:
    1. Install Java and pip3 using apt
       ```
+      sudo apt-get update
       sudo apt-get install default-jre python3-pip
+      ```
+   1. Install docker
+      ```
+      curl -sSL https://get.docker.com | sh
+      ```
+   1. Create ggc_user and give it permission to run docker commands
+      ```
+      sudo useradd ggc_user && sudo groupadd ggc_group && sudo usermod -aG ggc_group ggc_user && sudo usermod -aG docker ggc_user
       ```
    1. Install Greengrass running the following command
       ```
@@ -111,7 +117,7 @@ You are all set !
 
 To see everything in action, we can login to Grafana and checkout our Dashboard to view watertank digital twin and all the metrics.
 After deployment the url for our grafana instance will be printed out in your command line or you could get the url from your AWS console by visiting the Managed Grafana service page, however you won't have access yet.
-AWS Managed Grafana is using AWS IAM Identity Center for Authorisation previously known as AWS Single Sign-On (SSO). 
+AWS Managed Grafana is using AWS IAM Identity Center for Authorisation previously known as AWS Single Sign-On (SSO).
 
 You should have an IAM Identity User created by now, so we need to give it permission to access our Grafana Instance.
 

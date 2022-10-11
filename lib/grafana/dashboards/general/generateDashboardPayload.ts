@@ -859,7 +859,7 @@ export default (config: Config) => ({
           componentName: '',
           datasource: '',
           entityId: '',
-          kvsStreamName: 'sel_entity',
+          kvsStreamName: '${sel_entity}',
         },
         title: 'Camera',
         type: 'grafana-iot-twinmaker-videoplayer-panel',
