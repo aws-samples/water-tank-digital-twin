@@ -330,7 +330,7 @@ export class IotCore extends Construct {
       shutdownScript: `docker rm -f ${containerName}`,
       artifacts: [
         {
-          URI: `docker:546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi:latest`,
+          URI: 'docker:' + this.node.tryGetContext('kvsPluginDockerImage'),
         },
       ],
     });
