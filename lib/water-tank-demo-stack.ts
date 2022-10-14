@@ -25,13 +25,13 @@ export class WaterTankDemoStack extends Stack {
     const twinmaker = new TwinMaker(this, 'TwinMaker', { watertankName, timestreamReaderArn: timestreamReader.lamda.functionArn });
     const grafana = new Grafana(this, 'Grafana', { watertankName, twinmakerId: twinmaker.workspace.workspaceId });
     twinmaker.createScenes(grafana.dashboardUrl);
-
     const iotCore = new IotCore(this, 'IotCore', { watertankName, virtual });
-    if (virtual) new VirtualDevice(this, 'VirtualDevice', { watertankName, subscribeCommand: iotCore.subscribeCommand });
 
-    new CfnOutput(this, 'deviceSubscribeCommand', {
-      value: iotCore.subscribeCommand + ' --thing-name ' + watertankName,
-      description: 'run this command on device to subscribe and replace with your device thing name',
-    });
+    if (virtual) new VirtualDevice(this, 'VirtualDevice', { watertankName, subscribeCommand: iotCore.subscribeCommand });
+    else
+      new CfnOutput(this, 'deviceSubscribeCommand', {
+        value: iotCore.subscribeCommand + ' --thing-name ' + watertankName,
+        description: 'run this command on device to subscribe and replace with your device thing name',
+      });
   }
 }
