@@ -95,7 +95,7 @@ export class IotCore extends Construct {
       this.createComponent('data_generator', {
         controls: ['leak', 'pump_1', 'pump_2'],
         frequency: '1',
-        mqtts_cmd_prefix: 'WaterTank_13/simulation/cmd/',
+        mqtts_cmd_prefix: watertankName + '/simulation/cmd/',
         sensors: ['ohms', 'amps_1', 'amps_2', 'flow_1', 'flow_2'],
         serial_simulation_ipc_topic: 'raw/serial',
         temperature_simulation_ipc_topic: 'raw/temperature',
