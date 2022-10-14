@@ -25,7 +25,7 @@
     "watertankName": "watertank_01",
     "region": "us-west-2",
     "kvsPluginDockerImage": "546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi:latest",
-    "virtual": true,
+    "virtual": false,
     "@aws-cdk/core:bootstrapQualifier": "watertank",
     "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true,
     "@aws-cdk/core:stackRelativeExports": true,
