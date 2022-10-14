@@ -17,7 +17,7 @@ interface WaterTankDemoStackProps extends StackProps {
 
 export class WaterTankDemoStack extends Stack {
   constructor(scope: Construct, id: string, props: WaterTankDemoStackProps) {
-    super(scope, id, props);
+    super(scope, id, { description: 'WaterTank Demo (uksb-1tg6b0m68)', ...props });
     const { watertankName, virtual = true } = props;
 
     const timestream = new TimeStream(this, 'TimeStream');
