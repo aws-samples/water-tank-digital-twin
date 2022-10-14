@@ -41,6 +41,7 @@ logging.basicConfig()
 log = logging.getLogger()
 log.setLevel(args[0])
 
+
 def mqtts_callback(func, cmd=None):
     try:
         @functools.wraps(func)
@@ -72,9 +73,11 @@ class DataGenerator:
             self.frequency = int(self.load_config("frequency"))
             self.sensors = self.load_config("sensors")
             self.controls = self.load_config("controls")
-            self.ipc_out_serial = self.load_config("serial_simulation_ipc_topic")
+            self.ipc_out_serial = self.load_config(
+                "serial_simulation_ipc_topic")
             self.mqtts_cmd_topic = self.load_config("mqtts_cmd_prefix")
-            self.ipc_out_temperature = self.load_config("temperature_simulation_ipc_topic")
+            self.ipc_out_temperature = self.load_config(
+                "temperature_simulation_ipc_topic")
 
             # IPC storage
             self.precedent_value = {}
@@ -109,7 +112,8 @@ class DataGenerator:
             return temp
 
         except Exception:
-            log.error("#### Reading configuration error : {}".format(traceback.format_exc()))
+            log.error("#### Reading configuration error : {}".format(
+                traceback.format_exc()))
 
     def lazy_loop(self):
         Timer(5, self.lazy_loop).start()
@@ -133,12 +137,16 @@ class DataGenerator:
     def start_generation(self):
         try:
             # todo add parameters for range
-            ohms_meter = generate_data(704, 736)
-            amps_meter_1 = generate_data(525, 527) if self.pump_1_requested_state == 0 else generate_data(611, 615)
-            amps_meter_2 = generate_data(525, 527) if self.pump_2_requested_state == 0 else generate_data(611, 615)
-            flow_meter_1 = generate_data(0, 13) if self.leak_requested_state == 0 else generate_data(15, 20)
+            ohms_meter = generate_data(520, 571)
+            amps_meter_1 = generate_data(
+                525, 527) if self.pump_1_requested_state == 0 else generate_data(611, 615)
+            amps_meter_2 = generate_data(
+                525, 527) if self.pump_2_requested_state == 0 else generate_data(611, 615)
+            flow_meter_1 = generate_data(
+                0, 13) if self.leak_requested_state == 0 else generate_data(15, 20)
             # control if a leak is requested. If so, ensure flow 2 is more than 1/2 flow 1
-            flow_meter_2 = generate_data(abs(flow_meter_1-3 if flow_meter_1 > 3 else flow_meter_1), flow_meter_1) if self.leak_requested_state == 0 else generate_data(abs(int(flow_meter_1/3)), int(flow_meter_1/3)+1)
+            flow_meter_2 = generate_data(abs(flow_meter_1-3 if flow_meter_1 > 3 else flow_meter_1),
+                                         flow_meter_1) if self.leak_requested_state == 0 else generate_data(abs(int(flow_meter_1/3)), int(flow_meter_1/3)+1)
 
             temp_data = generate_data(13, 30)
             self.transmit_update(self.ipc_out_temperature, temp_data)
@@ -167,7 +175,8 @@ class DataGenerator:
         cmd = data.message.topic_name.split('/')[-1]
         updated_value = data.message.payload.decode('utf-8')
         # ### topic: digital-twin/mqtts/simulation/cmd/leak, command: leak, value:0.
-        log.debug("#### topic: {}, command: {}, value:{}".format(data.message.topic_name, cmd, updated_value))
+        log.debug("#### topic: {}, command: {}, value:{}".format(
+            data.message.topic_name, cmd, updated_value))
 
         if cmd not in self.controls:
             log.error("Command {} not configured!".format(cmd))
