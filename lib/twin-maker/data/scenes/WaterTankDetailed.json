@@ -47,7 +47,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "${sel_entity}",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "leak",
               "entityPath": "AWS EMEA/LUX-22/Prototyping Labs/${sel_entity}"
             },
@@ -84,7 +84,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "${sel_entity}",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "amps_meter_1",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
             }
@@ -119,7 +119,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "${sel_entity}",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "amps_meter_2",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
             }
@@ -154,7 +154,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "${sel_entity}",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "flow_meter_1",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
             }
@@ -189,7 +189,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "${sel_entity}",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "flow_meter_2",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
             }
@@ -224,7 +224,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "${sel_entity}",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "ohms_meter",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
             }
@@ -259,7 +259,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "${sel_entity}",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "temperature",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
             }
@@ -294,7 +294,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "${sel_entity}",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "volume_level",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/${sel_entity}"
             }
