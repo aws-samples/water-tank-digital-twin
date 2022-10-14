@@ -79,8 +79,8 @@
           "navLink": {
             "destination": "${dashboardUrl}",
             "params": {
-              "var-sel_entity": "watertank_ahmed",
-              "var-kvs_stream_name": "watertank_ahmed",
+              "var-sel_entity": "${sel_entity}",
+              "var-kvs_stream_name": "${sel_entity}",
               "from": "now-5m",
               "to": "now"
             }
@@ -90,7 +90,7 @@
           "type": "ModelShader",
           "valueDataBinding": {
             "dataBindingContext": {
-              "entityId": "watertank_ahmed",
+              "entityId": "${sel_entity}",
               "componentName": "AlarmComponent",
               "propertyName": "alarm_status",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Seattle"
@@ -218,7 +218,7 @@
           "ruleBasedMapId": "WaterTankLeakRuleMap",
           "valueDataBinding": {
             "dataBindingContext": {
-              "entityId": "watertank_ahmed",
+              "entityId": "${sel_entity}",
               "componentName": "AlarmComponent",
               "propertyName": "alarm_status",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Seattle"
@@ -228,8 +228,8 @@
             "destination": "${dashboardUrl}",
             "params": {
               "orgId": "1",
-              "var-sel_entity": "watertank_ahmed",
-              "var-kvs_stream_name": "watertank_ahmed",
+              "var-sel_entity": "${sel_entity}",
+              "var-kvs_stream_name": "${sel_entity}",
               "from": "now-5m",
               "to": "now"
             }
