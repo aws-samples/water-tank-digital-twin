@@ -18,9 +18,11 @@ type TwinMakerProps = {
 export class TwinMaker extends Construct {
   workspace: twinmaker.CfnWorkspace;
   bucket: s3.Bucket;
+  props: TwinMakerProps;
 
   constructor(scope: Construct, id: string, props: TwinMakerProps) {
     super(scope, id);
+    this.props = props;
     const { timestreamReaderArn, watertankName } = props;
 
     this.bucket = new s3.Bucket(this, 'TwinmakerBucket', {
@@ -43,7 +45,7 @@ export class TwinMaker extends Construct {
       new iam.PolicyStatement({
         actions: ['lambda:InvokeFunction'],
         resources: [timestreamReaderArn],
-      }),
+      })
     );
 
     const workspace = new twinmaker.CfnWorkspace(this, 'Workspace', {
@@ -64,7 +66,7 @@ export class TwinMaker extends Construct {
   createScenes(dashboardUrl: string) {
     const workspace = this.workspace;
     const bucket = this.bucket;
-    const scenes = new Scenes(this, 'Scenes', { workspace, bucket, dashboardUrl });
+    const scenes = new Scenes(this, 'Scenes', { workspace, bucket, dashboardUrl, watertankName: this.props.watertankName });
     scenes.node.addDependency(workspace);
   }
 }

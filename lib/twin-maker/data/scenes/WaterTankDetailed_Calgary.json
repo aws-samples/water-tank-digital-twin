@@ -54,7 +54,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "WaterTank_Calgary",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "amps_meter_1",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
             }
@@ -79,7 +79,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "WaterTank_Calgary",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "amps_meter_2",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
             }
@@ -103,7 +103,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "WaterTank_Calgary",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "flow_meter_1",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
             }
@@ -127,7 +127,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "WaterTank_Calgary",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "flow_meter_2",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
             }
@@ -151,7 +151,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "WaterTank_Calgary",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "ohms_meter",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
             }
@@ -175,7 +175,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "WaterTank_Calgary",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "temperature",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
             }
@@ -199,7 +199,7 @@
           "valueDataBinding": {
             "dataBindingContext": {
               "entityId": "WaterTank_Calgary",
-              "componentName": "WaterTankComponent",
+              "componentName": "WaterTank",
               "propertyName": "volume_level",
               "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
             }
@@ -225,11 +225,11 @@
               "valueDataBinding": {
                 "dataBindingContext": {
                   "entityId": "WaterTank_Calgary",
-                  "componentName": "WaterTankComponent",
+                  "componentName": "WaterTank",
                   "propertyName": "flow_meter_1",
                   "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
                 },
-                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Dflow_meter_1,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Dflow_meter_1"
+                "dataFrameLabel": "component%3DWaterTank%26entity%3DWaterTank_Calgary%26property%3Dflow_meter_1,component%3DWaterTank%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Dflow_meter_1"
               },
               "ruleBasedMapId": "flowMeter1Motion"
             },
@@ -262,11 +262,11 @@
               "valueDataBinding": {
                 "dataBindingContext": {
                   "entityId": "WaterTank_Calgary",
-                  "componentName": "WaterTankComponent",
+                  "componentName": "WaterTank",
                   "propertyName": "flow_meter_2",
                   "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
                 },
-                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Dflow_meter_2,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Dflow_meter_2"
+                "dataFrameLabel": "component%3DWaterTank%26entity%3DWaterTank_Calgary%26property%3Dflow_meter_2,component%3DWaterTank%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Dflow_meter_2"
               },
               "ruleBasedMapId": "flowMeter2Motion"
             }
@@ -297,11 +297,11 @@
               "valueDataBinding": {
                 "dataBindingContext": {
                   "entityId": "WaterTank_Calgary",
-                  "componentName": "WaterTankComponent",
+                  "componentName": "WaterTank",
                   "propertyName": "amps_meter_2",
                   "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
                 },
-                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Damps_meter_2,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Damps_meter_2"
+                "dataFrameLabel": "component%3DWaterTank%26entity%3DWaterTank_Calgary%26property%3Damps_meter_2,component%3DWaterTank%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Damps_meter_2"
               },
               "ruleBasedMapId": "amperMeter2FlowMotion"
             },
@@ -333,11 +333,11 @@
               "valueDataBinding": {
                 "dataBindingContext": {
                   "entityId": "WaterTank_Calgary",
-                  "componentName": "WaterTankComponent",
+                  "componentName": "WaterTank",
                   "propertyName": "amps_meter_1",
                   "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
                 },
-                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Damps_meter_1,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Damps_meter_1"
+                "dataFrameLabel": "component%3DWaterTank%26entity%3DWaterTank_Calgary%26property%3Damps_meter_1,component%3DWaterTank%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Damps_meter_1"
               },
               "ruleBasedMapId": "amperMeter1Motion"
             },
@@ -369,11 +369,11 @@
               "valueDataBinding": {
                 "dataBindingContext": {
                   "entityId": "WaterTank_Calgary",
-                  "componentName": "WaterTankComponent",
+                  "componentName": "WaterTank",
                   "propertyName": "amps_meter_2",
                   "entityPath": "AWS/Prototyping/Labs/Lab Luxembourg 22/WaterTank Calgary"
                 },
-                "dataFrameLabel": "component%3DWaterTankComponent%26entity%3DWaterTank_Calgary%26property%3Damps_meter_2,component%3DWaterTankComponent%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Damps_meter_2"
+                "dataFrameLabel": "component%3DWaterTank%26entity%3DWaterTank_Calgary%26property%3Damps_meter_2,component%3DWaterTank%26entityPath%3DAWS%252FPrototyping%252FLabs%252FLab%2520Luxembourg%252022%252FWaterTank%2520Calgary%26property%3Damps_meter_2"
               },
               "ruleBasedMapId": "amperMeter2Motion"
             },

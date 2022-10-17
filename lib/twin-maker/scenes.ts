@@ -11,12 +11,13 @@ type ScenesProps = {
   workspace: twinmaker.CfnWorkspace;
   bucket: s3.Bucket;
   dashboardUrl: string;
+  watertankName: string;
 };
 
 export class Scenes extends Construct {
   constructor(scope: Construct, id: string, props: ScenesProps) {
     super(scope, id);
-    const { workspace, bucket, dashboardUrl } = props;
+    const { workspace, bucket, dashboardUrl, watertankName } = props;
 
     new twinmaker.CfnScene(this, 'ProtLab', {
       workspaceId: workspace.workspaceId,
@@ -45,10 +46,12 @@ export class Scenes extends Construct {
     const prototypingLabs = readFileSync('lib/twin-maker/data/scenes/PrototypingLabs.json')
       .toString()
       .replace(/\${bucket}/g, bucket.s3UrlForObject())
-      .replace(/\${dashboardUrl}/g, dashboardUrl);
+      .replace(/\${dashboardUrl}/g, dashboardUrl)
+      .replace(/\${sel_entity}/g, watertankName);
     const waterTankDetailed = readFileSync('lib/twin-maker/data/scenes/WaterTankDetailed.json')
       .toString()
-      .replace(/\${bucket}/g, bucket.s3UrlForObject());
+      .replace(/\${bucket}/g, bucket.s3UrlForObject())
+      .replace(/\${sel_entity}/g, watertankName);
     const cookieFactoryCalgary = readFileSync('lib/twin-maker/data/scenes/CookieFactory_Calgary.json')
       .toString()
       .replace(/\${bucket}/g, bucket.s3UrlForObject());
