@@ -88,6 +88,7 @@ export class IotCore extends Construct {
 
   createComponents(watertankName: string, virtual = true) {
     const prod = virtual ? 0 : 1;
+    // const prod = 0;
     const components = [
       this.createPythonComponent('amper_meter', {
         amps_activity_threshold: '610',
@@ -321,16 +322,17 @@ export class IotCore extends Construct {
 
   createKvsComponent(name: string, configs: any = {}) {
     const uniqueName = Names.uniqueId(this) + '-' + name;
+    const kvsPluginDockerImage = this.node.tryGetContext('kvsPluginDockerImage');
     const containerName = 'kvs';
 
     const recipe = generateRecipe({
       name: uniqueName,
       configs,
-      runScript: `docker run --name ${containerName} --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc  -e AWS_IOT_THING_NAME -e AWS_REGION -v /$GG_ROOT_CA_PATH/..:/certs --entrypoint sh 546150905175.dkr.ecr.us-west-2.amazonaws.com/kinesis-video-producer-sdk-cpp-raspberry-pi -c "gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name=$AWS_IOT_THING_NAME iot-certificate='iot-certificate,endpoint=${this.iotEndpoint},cert-path=/certs/thingCert.crt,key-path=/certs/privKey.key,ca-path=/certs/rootCA.pem,role-aliases=${this.roleAlias.roleAlias}' aws-region=$AWS_REGION"`,
+      runScript: `docker run --name ${containerName} --device=/dev/video0 --device=/dev/vchiq -v /opt/vc:/opt/vc  -e AWS_IOT_THING_NAME -e AWS_REGION -v /$GG_ROOT_CA_PATH/..:/certs --entrypoint sh ${kvsPluginDockerImage} -c "gst-launch-1.0 v4l2src do-timestamp=TRUE device=/dev/video0 ! videoconvert ! video/x-raw,format=I420,width=640,height=480,framerate=30/1 ! x264enc ! h264parse ! video/x-h264,stream-format=avc,alignment=au,width=640,height=480,framerate=30/1,profile=baseline ! kvssink stream-name=$AWS_IOT_THING_NAME iot-certificate='iot-certificate,endpoint=${this.iotEndpoint},cert-path=/certs/thingCert.crt,key-path=/certs/privKey.key,ca-path=/certs/rootCA.pem,role-aliases=${this.roleAlias.roleAlias}' aws-region=$AWS_REGION"`,
       shutdownScript: `docker rm -f ${containerName}`,
       artifacts: [
         {
-          URI: 'docker:' + this.node.tryGetContext('kvsPluginDockerImage'),
+          URI: 'docker:' + kvsPluginDockerImage,
         },
       ],
     });

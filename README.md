@@ -80,11 +80,7 @@ This steps assume you have an SD Card and Raspberry PI
    1. Install Java and pip3 using apt
       ```
       sudo apt-get update
-      sudo apt-get install default-jre python3-pip
-      ```
-   1. Install docker
-      ```
-      curl -sSL https://get.docker.com | sh
+      sudo apt-get install default-jre python3-pip docker.io
       ```
    1. Create ggc_user and give it permission to run docker commands
       ```
@@ -101,7 +97,7 @@ This steps assume you have an SD Card and Raspberry PI
          export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
          export AWS_SESSION_TOKEN=<AWS_SESSION_TOKEN>
          ```
-      1. Run the command given as output of your backend deployment (aka. `npm run cdk deploy`). Something like `sudo -E java -Droot="/greengrass/v2" ...`
+      1. Run the command given as output of your backend deployment (aka. `npm run deploy`). Something like `sudo -E java -Droot="/greengrass/v2" ...`
 1. Configure the interface options:
    1. run `raspi-config`
    1. Go to Interface options
