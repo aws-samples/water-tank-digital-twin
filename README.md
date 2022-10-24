@@ -26,8 +26,10 @@ There are 2 ways to deploy the CDK stack to your account. One is directly from y
 - Ensure you have [Node.js](https://nodejs.org) and [Docker](https://www.docker.com/products/docker-desktop/) installed
 - Bootstrap your account:
   In the root folder, run the following commands
+  ```
   npm ci
   npm run cdk bootstrap -- --toolkit-stack-name CDKToolkit-Water-Tank --qualifier watertank
+  ```
 
 ### deploy stack directly (bypassing CI/CD. You can always activate the CI/CD afterwards following the next section's instruction)
 
