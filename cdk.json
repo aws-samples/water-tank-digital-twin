@@ -24,7 +24,7 @@
     },
     "watertankName": "watertank_01",
     "kvsPluginDockerImage": "public.ecr.aws/y2t8c1e9/kinesis-video-producer-sdk-cpp-raspberry-pi-64",
-    "virtual": false,
+    "virtual": true,
     "@aws-cdk/core:bootstrapQualifier": "watertank",
     "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true,
     "@aws-cdk/core:stackRelativeExports": true,
