@@ -26,7 +26,7 @@ export class VirtualDevice extends Construct {
       new iam.PolicyStatement({
         actions: ['iot:CreateKeysAndCertificate', 'iot:Describe*', 'iam:Get*'],
         resources: ['*'],
-      }),
+      })
     );
 
     const vpc = new ec2.Vpc(this, 'Vpc', { maxAzs: 1 });
@@ -38,13 +38,14 @@ export class VirtualDevice extends Construct {
       machineImage: new ec2.AmazonLinuxImage({ generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2 }),
       init: ec2.CloudFormationInit.fromConfigSets({
         configSets: {
-          default: ['installJava', 'installGreenGrass', 'subscribeDevice'],
+          default: ['installJava', 'givePermission', 'installGreenGrass', 'subscribeDevice'],
         },
         configs: {
           installJava: new ec2.InitConfig([ec2.InitCommand.shellCommand('sudo amazon-linux-extras install java-openjdk11')]),
+          givePermission: new ec2.InitConfig([ec2.InitCommand.shellCommand(`sed -i 's/ALL=(ALL)/ALL=(ALL:ALL)/g' /etc/sudoers`)]),
           installGreenGrass: new ec2.InitConfig([
             ec2.InitCommand.shellCommand(
-              'curl -s https://d2s8p88vqu9w66.cloudfront.net/releases/greengrass-nucleus-latest.zip > greengrass-nucleus-latest.zip && unzip greengrass-nucleus-latest.zip -d GreengrassInstaller',
+              'curl -s https://d2s8p88vqu9w66.cloudfront.net/releases/greengrass-nucleus-latest.zip > greengrass-nucleus-latest.zip && unzip greengrass-nucleus-latest.zip -d GreengrassInstaller'
             ),
           ]),
           subscribeDevice: new ec2.InitConfig([ec2.InitCommand.shellCommand(subscribeCommand + ` --thing-name ${watertankName}`)]),

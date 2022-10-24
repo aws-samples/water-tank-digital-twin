@@ -25,13 +25,16 @@ export class TwinMakerDataSource extends Construct {
 
     this.role = new iam.Role(this, 'DataSourceRole', {
       assumedBy: new iam.ServicePrincipal('grafana.amazonaws.com'),
-      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess')],
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonKinesisVideoStreamsFullAccess'),
+      ],
     });
     this.role.addToPolicy(
       new iam.PolicyStatement({
         actions: ['iottwinmaker:*'],
         resources: ['*'],
-      }),
+      })
     );
 
     const datasourceProvider = new cr.Provider(this, 'DataSourceProvider', {
