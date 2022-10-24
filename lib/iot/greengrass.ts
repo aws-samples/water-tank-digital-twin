@@ -88,7 +88,6 @@ export class IotCore extends Construct {
 
   createComponents(watertankName: string, virtual = true) {
     const prod = virtual ? 0 : 1;
-    // const prod = 0;
     const components = [
       this.createPythonComponent('amper_meter', {
         amps_activity_threshold: '610',
