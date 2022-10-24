@@ -38,16 +38,10 @@ export class VirtualDevice extends Construct {
       machineImage: new ec2.AmazonLinuxImage({ generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2 }),
       init: ec2.CloudFormationInit.fromConfigSets({
         configSets: {
-          default: ['installJava', 'installDocker', 'setupUser', 'givePermission', 'installGreenGrass', 'subscribeDevice'],
+          default: ['installJava', 'givePermission', 'installGreenGrass', 'subscribeDevice'],
         },
         configs: {
           installJava: new ec2.InitConfig([ec2.InitCommand.shellCommand('sudo amazon-linux-extras install java-openjdk11')]),
-          installDocker: new ec2.InitConfig([ec2.InitCommand.shellCommand('sudo amazon-linux-extras install docker && sudo service docker start')]),
-          setupUser: new ec2.InitConfig([
-            ec2.InitCommand.shellCommand(
-              `sudo useradd ggc_user && sudo groupadd ggc_group && sudo usermod -aG ggc_group ggc_user && sudo usermod -aG docker ggc_user`
-            ),
-          ]),
           givePermission: new ec2.InitConfig([ec2.InitCommand.shellCommand(`sed -i 's/ALL=(ALL)/ALL=(ALL:ALL)/g' /etc/sudoers`)]),
           installGreenGrass: new ec2.InitConfig([
             ec2.InitCommand.shellCommand(
