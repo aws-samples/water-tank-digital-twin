@@ -294,13 +294,7 @@ export default (config: Config) => ({
           {
             componentName: 'AlarmComponent',
             entityId: '${sel_entity}',
-            filter: [
-              {
-                name: '',
-                op: '=',
-                value: '',
-              },
-            ],
+            filter: [],
             properties: ['alarm_status'],
             queryType: 'EntityHistory',
             refId: 'A',
@@ -529,13 +523,7 @@ export default (config: Config) => ({
           {
             componentName: 'WaterTank',
             entityId: '${sel_entity}',
-            filter: [
-              {
-                name: '',
-                op: '=',
-                value: '',
-              },
-            ],
+            filter: [],
             hide: false,
             properties: ['amps_meter_1'],
             queryType: 'EntityHistory',
@@ -544,13 +532,7 @@ export default (config: Config) => ({
           {
             componentName: 'WaterTank',
             entityId: '${sel_entity}',
-            filter: [
-              {
-                name: '',
-                op: '=',
-                value: '',
-              },
-            ],
+            filter: [],
             hide: false,
             properties: ['amps_meter_2'],
             queryType: 'EntityHistory',
@@ -821,13 +803,7 @@ export default (config: Config) => ({
           {
             componentName: 'WaterTank',
             entityId: '${sel_entity}',
-            filter: [
-              {
-                name: '',
-                op: '=',
-                value: '',
-              },
-            ],
+            filter: [],
             hide: false,
             properties: ['temperature'],
             queryType: 'EntityHistory',
