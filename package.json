@@ -7,6 +7,7 @@
   "scripts": {
     "deploy": "cdk deploy CicdStack/Dev/WaterTankStack*",
     "deploy-pipeline": "cdk deploy CicdStack",
+    "destroy": "cdk destroy CicdStack/Dev/WaterTankStack*",
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
