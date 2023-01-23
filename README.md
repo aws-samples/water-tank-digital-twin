@@ -132,6 +132,14 @@ Now you are ready to visit grafana dashboard.ra
 
    ![grafana dashboard](./doc/images/grafana-dashboard.png)
 
+## Clean up
+
+To remove all resources created by this stack run the following
+
+```
+npm run destroy
+```
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
