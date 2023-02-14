@@ -223,10 +223,10 @@ export class IotCore extends Construct {
 
     const awsComponents = {
       'aws.greengrass.Cli': {
-        componentVersion: '2.7.0',
+        componentVersion: '2.9.3',
       },
       'aws.greengrass.Nucleus': {
-        componentVersion: '2.7.0',
+        componentVersion: '2.9.3',
         configurationUpdate: {
           merge: JSON.stringify({
             deploymentPollingFrequency: '60',
@@ -267,7 +267,7 @@ export class IotCore extends Construct {
         componentVersion: '2.0.3',
       },
       'aws.greengrass.DockerApplicationManager': {
-        componentVersion: '2.0.6',
+        componentVersion: '2.0.8',
       },
     };
 
