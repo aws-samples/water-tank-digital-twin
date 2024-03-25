@@ -29,7 +29,7 @@
     "@aws-cdk/aws-lambda-python-alpha": "^2.43.1-alpha.0",
     "aws-cdk-lib": "2.80.0",
     "aws-sdk": "^2.1354.0",
-    "axios": "^0.27.2",
+    "axios": "^0.28.0",
     "constructs": "^10.1.106",
     "source-map-support": "^0.5.21"
   }
